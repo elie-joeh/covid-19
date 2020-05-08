@@ -34,7 +34,6 @@ export class CanadaMapComponent implements OnInit {
     this.selected_province = this.myData[row_nb][0];
     
     this.infectionBreakdownService.selected_province.next(this.selected_province);
-    console.log(this.selected_province)
   }
 
   ngOnInit(): void { 

@@ -1,7 +1,6 @@
 
 .header
   text-align: center
-  
 
 .main_body
     border-style: solid
@@ -12,19 +11,41 @@
 /* Create three equal columns that floats next to each other */
 .column
   float: left
-  border-style: outset
   margin-left: 15px
   margin-top: 7px
   height: 95%
 
-.column1
+.regulation
+  border-style: outset
   width: 20%
 
-.column2
+.map
+  border-style: outset
   width: 55%
 
-.column3
+.infection
   width: 20%
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+
+
+.provinces
+  width: 100%
+  height: 50%
+  border-style: outset
+  background-color: #808080
+  margin-bottom: 5px
+  overflow-y: scroll
+  overflow-x: hidden
+
+.cities
+  boder-style: outset
+  width: 100%
+  height: 50%
+  background-color: #808080
 
 
 /* Clear floats after the columns */
@@ -33,3 +54,13 @@
   display: table
   clear: both
 
+/* Create the layout of the scroll bar for the whole application*/
+\::-webkit-scrollbar
+  width: 5px
+
+\::-webkit-scrollbar-track
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+
+\::-webkit-scrollbar-thumb
+  background-color: darkgrey
+  outline: 1px solid slategrey

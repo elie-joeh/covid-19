@@ -11,17 +11,23 @@
         </div>
     
         <div class="main_body">
-            <div class="column column1">
+            <div class="column regulation">
               <h2>Restrictions and Regulations</h2>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
             </div>
             
-            <div class="column column2">
+            <div class="column map">
               <app-canada-map class="canada"></app-canada-map>
             </div>
             
-            <div class="column column3">
-              <app-infection-breakdown></app-infection-breakdown>
+            <div class="column infection">
+              <div class="provinces">
+                <app-infection-breakdown></app-infection-breakdown>
+              </div>
+              
+              <div class="cities">
+                <app-cities-breakdown></app-cities-breakdown>
+              </div>
             </div>
             
         </div>
