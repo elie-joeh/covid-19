@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {InfectionBreakdownService} from '../infection-breakdown.service'
+import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
 
 @Component({
   selector: 'app-restrictions-breakdown',

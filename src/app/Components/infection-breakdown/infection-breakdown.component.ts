@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ErrorHandler } from '@angular/core';
-import { InfectionBreakdownService } from '../infection-breakdown.service';
-import { Infection_info } from '../infection-info';
+import { InfectionBreakdownService } from '../../Services/infection-breakdown.service';
+import { Infection_info } from '../../Interfaces/infection-info';
 
 @Component({
   selector: 'app-infection-breakdown',
@@ -24,9 +24,10 @@ export class InfectionBreakdownComponent implements OnInit {
   }
 
   getInfectionBreakdown() {
-    console.log(`getting infection information of all provinces`)
     this.infectionBreakdownService.getInfectionInfo()
       .subscribe(infection_info => this.all_infection_info = infection_info)
+    
+      //TODO: sort the provinces by infection
   }
 
   getInfectionByProvince(selected_province: string){

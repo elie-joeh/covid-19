@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {InfectionBreakdownService} from '../infection-breakdown.service'
+import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
+import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
 
 @Component({
   selector: 'app-canada-map',
@@ -17,7 +18,8 @@ export class CanadaMapComponent implements OnInit {
 
   selected_province: any;
 
-  constructor(private infectionBreakdownService : InfectionBreakdownService) {
+  constructor(private infectionBreakdownService : InfectionBreakdownService,
+              private citiesBreakdownService: CitiesBreakdownService) {
   }
 
   /*
@@ -34,6 +36,7 @@ export class CanadaMapComponent implements OnInit {
     this.selected_province = this.myData[row_nb][0];
     
     this.infectionBreakdownService.selected_province.next(this.selected_province);
+    this.citiesBreakdownService.selected_province.next(this.selected_province);
   }
 
   ngOnInit(): void { 
@@ -55,7 +58,7 @@ export class CanadaMapComponent implements OnInit {
       ['Ontario', 8538000, 12323],
       ['British Columbia', 2244000, 12323],
       ['Alberta', 3470000, 12323],
-      ['Prince Edward Island', 19500000, 12323],
+      ['Prince Edward Island', 19500, 12323],
       ['Manitoba', 299292, 12323],
       ['Nova Scotia', 3388383, 12323],
       ['New Brunswick',3344343, 12323],
@@ -69,7 +72,10 @@ export class CanadaMapComponent implements OnInit {
     this.myOptions = {
       region : 'CA',
       displayMode : 'regions',
-      resolution : 'provinces'
+      resolution : 'provinces',
+      backgroundColor: '#252525',
+      datalessRegionColor: '#4A4A4A',
+      colorAxis: {colors: ['#faebd7', '#ffc8a3', '#d9534f']}
     };
   }
 

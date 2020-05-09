@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Infection_info } from './infection-info';
+import { Infection_info } from '../Interfaces/infection-info';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({

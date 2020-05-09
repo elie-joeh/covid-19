@@ -3,14 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CanadaMapComponent } from './canada-map/canada-map.component';
+import { CanadaMapComponent } from './Components/canada-map/canada-map.component';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { InfectionBreakdownComponent } from './infection-breakdown/infection-breakdown.component';
-import { RestrictionsBreakdownComponent } from './restrictions-breakdown/restrictions-breakdown.component'
+import { InfectionBreakdownComponent } from './Components/infection-breakdown/infection-breakdown.component';
+import { RestrictionsBreakdownComponent } from './Components/restrictions-breakdown/restrictions-breakdown.component'
 import { HttpClientModule }    from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
-import { CitiesBreakdownComponent } from './cities-breakdown/cities-breakdown.component';
+import { InMemoryDataService }  from './Services/in-memory-data.service';
+import { CitiesBreakdownComponent } from './Components/cities-breakdown/cities-breakdown.component';
+import { CitySearchComponent } from './Components/city-search/city-search.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CitiesBreakdownComponent } from './cities-breakdown/cities-breakdown.co
     CanadaMapComponent,
     InfectionBreakdownComponent,
     RestrictionsBreakdownComponent,
-    CitiesBreakdownComponent
+    CitiesBreakdownComponent,
+    CitySearchComponent
   ],
   imports: [
     BrowserModule,
