@@ -11,6 +11,7 @@ export class InMemoryDataService {
     const infection_info : Infection_info[] = [
       { province: 'Quebec', infected: 10000, dead: 100 },
       { province: 'Ontario', infected: 8000, dead: 87 },
+      { province: 'Alberta',infected: 6000, dead: 64},
       { province: 'British Columbia', infected: 5000, dead: 56 },
       { province: 'Prince Edward Island', infected: 1233, dead: 45 },
       { province: 'Manitoba', infected: 344, dead: 34 },

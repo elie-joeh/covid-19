@@ -14,6 +14,17 @@ export class CitiesBreakdownService {
 
   private cities_breakdown_url = 'api/cities_info';
 
+
+  //an observable from HttpClient always emits a single value and then completes, so never emit again
+  getCitiesInfo(): Observable<City[]>{
+    return this.http.get<City[]>(this.cities_breakdown_url)
+        .pipe(
+          tap(_ => console.log('fetched infection information')),
+          catchError(this.handleFetchError<City[]>('getCitiesInfo', []))
+        )
+  }
+
+
   //GET cities whose name contains search term
   searchCities(term: string): Observable<City[]> {
     //nothing to search in this case

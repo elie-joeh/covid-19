@@ -11,7 +11,6 @@ import { HttpClientModule }    from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './Services/in-memory-data.service';
 import { CitiesBreakdownComponent } from './Components/cities-breakdown/cities-breakdown.component';
-import { CitySearchComponent } from './Components/city-search/city-search.component';
 
 @NgModule({
   declarations: [
@@ -19,8 +18,7 @@ import { CitySearchComponent } from './Components/city-search/city-search.compon
     CanadaMapComponent,
     InfectionBreakdownComponent,
     RestrictionsBreakdownComponent,
-    CitiesBreakdownComponent,
-    CitySearchComponent
+    CitiesBreakdownComponent
   ],
   imports: [
     BrowserModule,
