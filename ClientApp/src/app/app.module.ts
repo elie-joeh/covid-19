@@ -7,11 +7,12 @@ import { CanadaMapComponent } from './Components/canada-map/canada-map.component
 import { GoogleChartsModule } from 'angular-google-charts';
 import { InfectionBreakdownComponent } from './Components/infection-breakdown/infection-breakdown.component';
 import { RestrictionsBreakdownComponent } from './Components/restrictions-breakdown/restrictions-breakdown.component'
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './Services/in-memory-data.service';
+import { InMemoryDataService } from './Services/in-memory-data.service';
 import { CitiesBreakdownComponent } from './Components/cities-breakdown/cities-breakdown.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,9 @@ import { DashboardComponent } from './Components/dashboard/dashboard.component';
     AppRoutingModule,
     GoogleChartsModule,
     HttpClientModule,
+    RouterModule.forRoot([
+      { path: '', component: AppComponent }
+    ]),
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
