@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
 import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
 import { Infection_info } from 'src/app/Interfaces/infection-info';
-import { AppResolverService } from '../../Services/app-resolver.service';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-canada-map',
@@ -12,19 +10,17 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CanadaMapComponent implements OnInit {
 
+  @Input() myData : any;
   type : any;
   title : any;
   chartColumns : any;
   myOptions : any;
   chart : any;
-  myData : any;
-
+  
   selected_province: any;
 
   constructor(private infectionBreakdownService : InfectionBreakdownService,
-              private citiesBreakdownService: CitiesBreakdownService,
-              private resolver: AppResolverService,
-              private actr: ActivatedRoute) {
+              private citiesBreakdownService: CitiesBreakdownService) {
   }
 
   /*
@@ -32,7 +28,6 @@ export class CanadaMapComponent implements OnInit {
   */
   onResize(event){
     this.drawChart();
-    console.log(this.myData);
   }
 
   onSelect(e) {
@@ -46,20 +41,7 @@ export class CanadaMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let temp_data:any;
-    this.actr.data.subscribe((data: Infection_info[]) => {  
-      temp_data = data;
-    });
-
-    this.myData = Object.values(temp_data).map(function(provinceIndex: Infection_info[]) {
-      let temp_data = [];
-      for(let province of provinceIndex) {
-        temp_data.push([province.province, province.infected, province.dead])
-      }
-      return temp_data;
-    });      
-    this.myData = this.myData[0];
-
+    
     this.drawChart();
   }
 

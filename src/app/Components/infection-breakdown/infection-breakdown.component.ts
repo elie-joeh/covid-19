@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ErrorHandler } from '@angular/core';
-import { InfectionBreakdownService } from '../../Services/infection-breakdown.service';
 import { Infection_info } from '../../Interfaces/infection-info';
 
 @Component({
@@ -9,39 +8,30 @@ import { Infection_info } from '../../Interfaces/infection-info';
 })
 export class InfectionBreakdownComponent implements OnInit {
 
+  constructor() { }
 
-  constructor(private infectionBreakdownService : InfectionBreakdownService) { }
-
-  selected_province: string = 'Quebec';
-
-  all_infection_info : Infection_info[];
+  @Input() all_infection_info : Infection_info[];
 
   ngOnInit(): void {
-    this.infectionBreakdownService.selected_province_obs$.subscribe(
-      data => this.handleNewProvince(data)
-    );
-    this.getInfectionBreakdown()
+    this.sortByInfection();
   }
 
-  getInfectionBreakdown() {
-    this.infectionBreakdownService.getInfectionInfo()
-      .subscribe(infection_info => this.all_infection_info = infection_info)
-    
-      //TODO: sort the provinces by infection
-  }
+  sortByInfection(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
 
-  getInfectionByProvince(selected_province: string){
-    console.log(`getting infection information by province ${selected_province}`)
-    //TODO subscribe to the observable that you are receiving
-    //this.infectionBreakdownService.getInfecionInfoByProvince(selected_province)
-    
-  }
+    temp_data.sort(function(a, b) {
+      return b[0]-a[0];  
+    })
 
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
 
-  //TODO: check if the data is incorrect and handle it
-  handleNewProvince(data) {
-    this.selected_province = data;
-    this.getInfectionBreakdown();
+    this.all_infection_info = sorted_data;
   }
 
 }

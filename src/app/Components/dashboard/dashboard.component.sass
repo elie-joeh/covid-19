@@ -1,0 +1,74 @@
+html, body, #background
+  background-color: #252525
+  margin: 0
+  padding: 0
+  
+.header
+  text-align: center
+  color: white
+  background-color: #252525
+
+.main_body
+  border-style: solid
+  background-color: #252525
+  height: 600px
+  width: 1500px
+
+/* Create three equal columns that floats next to each other */
+.column
+  float: left
+  margin-left: 15px
+  margin-top: 7px
+  height: 95%
+
+.regulation
+  border-style: outset
+  width: 20%
+
+.map
+  border-style: outset
+  width: 55%
+
+.infection
+  width: 20%
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+
+
+.provinces
+  width: 100%
+  height: 50%
+  border-style: outset
+  background-color: #808080
+  margin-bottom: 5px
+  overflow-y: scroll
+  overflow-x: hidden
+
+.cities
+  boder-style: outset
+  width: 100%
+  height: 50%
+  background-color: #808080
+  overflow-y: scroll
+  overflow-x: hidden
+
+
+/* Clear floats after the columns */
+.main_body:after
+  content: ""
+  display: table
+  clear: both
+
+/* Create the layout of the scroll bar for the whole application*/
+\::-webkit-scrollbar
+  width: 5px
+
+\::-webkit-scrollbar-track
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+
+\::-webkit-scrollbar-thumb
+  background-color: darkgrey
+  outline: 1px solid slategrey

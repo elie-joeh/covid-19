@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, switchMap
@@ -14,10 +14,11 @@ import { CitiesBreakdownService } from '../../Services/cities-breakdown.service'
 })
 export class CitiesBreakdownComponent implements OnInit {
 
+  @Input() allCities: City[];
+  
   selected_province: string = 'Quebec';
 
   cities$: Observable<City[]>;
-  allCities$: Observable<City[]>;
   searchCities: City[] = [];
 
   private searchTerms = new Subject<string>();
@@ -27,10 +28,7 @@ export class CitiesBreakdownComponent implements OnInit {
   ngOnInit(): void {
     this.citiesBreakdownService.selected_province_obs$.subscribe(
       data => this.handleNewProvince(data)
-    );
-
-    this.allCities$ = this.citiesBreakdownService.getCitiesInfo()
-    
+    ); 
     
     this.cities$ = this.searchTerms.pipe (
       //wait 300ms after each keystroke before considering the term

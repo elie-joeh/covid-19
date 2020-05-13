@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CanadaMapComponent } from './Components/canada-map/canada-map.component';
-import { AppResolverService } from './Services/app-resolver.service';
 import { HttpClientModule }    from '@angular/common/http';
 import { CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms'
+import { AppComponent } from './app.component';
+import { InfectionBreakdownResolverService } from './Services/infection-breakdown-resolver.service';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { CitiesBreakdownResolverService } from './Services/cities-breakdown-resolver.service';
+
 
 const routes: Routes = [
   {
     path: 'canada',
-    component: CanadaMapComponent,
+    component: DashboardComponent,
     resolve: {
-      mapData: AppResolverService
+      provinceInfectionData: InfectionBreakdownResolverService,
+      citiesInfectionData: CitiesBreakdownResolverService
     }
   },
   {
@@ -27,6 +32,6 @@ const routes: Routes = [
     FormsModule,
     HttpClientModule],
   exports: [RouterModule],
-  providers: [AppResolverService]
+  providers: [InfectionBreakdownResolverService]
 })
 export class AppRoutingModule { }

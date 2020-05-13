@@ -8,17 +8,16 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AppResolverService implements Resolve<Observable<Infection_info[]>>{
-  constructor(private infectionBreakdownService: InfectionBreakdownService) { }
+export class InfectionBreakdownResolverService implements Resolve<Observable<Infection_info[]>> {
+  constructor(private infectionBreakdown: InfectionBreakdownService) { }
 
   resolve(route: ActivatedRouteSnapshot, rstate: RouterStateSnapshot): Observable<Infection_info[]> {
-      console.log('Resolver is fetching the infection information');
-      return this.infectionBreakdownService.getInfectionInfo().pipe(
+    console.log('infection resolver is fetching the infection information');
+      return this.infectionBreakdown.getInfectionInfo().pipe(
         catchError((error) => {
           console.log("ERRRRROR");
           return empty();
         })
       );
   }
-
 }

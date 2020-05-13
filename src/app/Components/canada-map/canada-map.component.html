@@ -1,4 +1,4 @@
-<div class="canadaMap" (window:resize)="onResize($event)">
+<div *ngIf="myData" class="canadaMap" (window:resize)="onResize($event)">
     <google-chart *ngIf="myData"
         class="canadaMap"
         [columns]="chartColumns"
