@@ -11,7 +11,7 @@
             </div>
             
             <div class="column map">
-              <app-canada-map [myData]="canada_map_data"></app-canada-map>
+              <app-canada-map (uploaded)="getProvInfectionBreakdown($event)" [myData]="canada_map_data" [chartColumns]="chart_columns"></app-canada-map>
             </div>
             
             <div class="column infection">

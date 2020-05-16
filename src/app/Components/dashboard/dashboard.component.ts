@@ -19,26 +19,40 @@ to the children components using te Input decorator.
 })
 export class DashboardComponent implements OnInit {
 
+  //Data for CanadaMap Component
   canada_map_data: any;
+  chart_columns: any;
+  province_infected: any;
+  province_dead: any;
+
+  //Data for cities infection component
   cities_breakdown_data: City[];
+
+  //Data for Infection Breakdown Component
   infection_breakdown_data: Infection_info[];
+
+  //Data for Restrictions breakdown component
   restrictions_breakdown_data: any;
 
-  constructor(private infectionBreakdownService : InfectionBreakdownService,
-    private citiesBreakdownService: CitiesBreakdownService,
-    private actr: ActivatedRoute) {
+  constructor(private actr: ActivatedRoute) {
   } 
 
 
   ngOnInit(): void {
-
-    let temp_data = [];
+    //Retreive data for Canada Map Component, and set the input to the component to be the infection number
+    let temp_province_infected_data = [];
+    let temp_province_dead_data = [];
     for(let province of this.actr.snapshot.data['provinceInfectionData']) {
-      temp_data.push([province.province, province.infected, province.dead])
+      temp_province_infected_data.push([province.province, province.infected]);
+      temp_province_dead_data.push([province.province, province.dead]);
     }
-    this.canada_map_data = temp_data;
+    this.canada_map_data = temp_province_infected_data;
+    this.province_infected = temp_province_infected_data;
+    this.province_dead = temp_province_dead_data;
+    this.chart_columns = ['Province', 'Infected'];
 
-    temp_data = [];
+    //Retrieve data for Infection Breakdown Component
+    let temp_data = [];
     for(let province_data of this.actr.snapshot.data['provinceInfectionData']) {
       const infection_info = <Infection_info> {
         province: province_data.province,
@@ -49,7 +63,7 @@ export class DashboardComponent implements OnInit {
     }
     this.infection_breakdown_data = temp_data;
 
-
+    //Retrieve dta for cities infection breakdown component
     temp_data = [];
     for(let city of this.actr.snapshot.data['citiesInfectionData']) {
       const city_info = <City> {
@@ -60,6 +74,24 @@ export class DashboardComponent implements OnInit {
       temp_data.push(city_info);
     }
     this.cities_breakdown_data = temp_data;
+
   }
+
+
+  getProvInfectionBreakdown(e:string) {
+    //TODO: change the else to an error shown next to the map
+    if(e == null || e.trim() == ""){
+      return;
+    }else if (e.trim() == 'dead'){
+      this.chart_columns = ['Province', 'Dead']
+      this.canada_map_data = this.province_dead;
+    }else if(e.trim() == 'infection') {
+      this.chart_columns = ['Province', 'Infected'];
+      this.canada_map_data = this.province_infected;
+    }else {
+      console.log('error in showing dead or infection data on canada map');
+    }
+  }
+
 
 }

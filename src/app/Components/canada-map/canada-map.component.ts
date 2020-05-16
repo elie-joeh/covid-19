@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
 import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
 import { Infection_info } from 'src/app/Interfaces/infection-info';
@@ -11,13 +11,17 @@ import { Infection_info } from 'src/app/Interfaces/infection-info';
 export class CanadaMapComponent implements OnInit {
 
   @Input() myData : any;
+  @Output() uploaded = new EventEmitter<string>();
+  @Input() chartColumns: any;
+
   type : any;
   title : any;
-  chartColumns : any;
   myOptions : any;
   chart : any;
   
   selected_province: any;
+
+  private chart_status: string;
 
   constructor(private infectionBreakdownService : InfectionBreakdownService,
               private citiesBreakdownService: CitiesBreakdownService) {
@@ -41,10 +45,24 @@ export class CanadaMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.chart_status = 'infection';
     this.drawChart();
   }
 
+
+  infectionButton() {
+    if(this.chart_status != 'infection'){
+      this.chart_status = 'infection';
+      this.uploaded.emit('infection');
+    }
+  }
+
+  deadButton() {
+    if(this.chart_status != 'dead') {
+      this.chart_status  = 'dead';
+      this.uploaded.emit('dead');
+    }
+  }
 
   drawChart() {
     this.type = "GeoChart"
@@ -54,8 +72,6 @@ export class CanadaMapComponent implements OnInit {
       displayMode : 'regions',
       resolution : 'provinces'
     };
-
-    this.chartColumns = ['Province', 'Infected', 'Dead'];
     
     this.myOptions = {
       region : 'CA',
@@ -65,23 +81,6 @@ export class CanadaMapComponent implements OnInit {
       datalessRegionColor: '#4A4A4A',
       colorAxis: {colors: ['#faebd7', '#ffc8a3', '#d9534f']}
     };
-
-    /*
-    this.myData = [
-      ["Quebec", 8136000, 12323],
-      ["Ontario", 8538000, 12323],
-      ["British Columbia", 2244000, 12323],
-      ["Alberta", 3470000, 12323],
-      ['Prince Edward Island', 19500, 12323],
-      ['Manitoba', 299292, 12323],
-      ['Nova Scotia', 3388383, 12323],
-      ['New Brunswick',3344343, 12323],
-      ['Newfoundland and Labrador',34343, 12323],
-      ['Saskatchewan', 325545, 12323],
-      ['Nunavut', 343434, 12323],
-      ['Yukon', 234678, 12323],
-      ['Northwest Territories', 3243242, 12323]
-    ];*/
 
   }
 

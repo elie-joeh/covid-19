@@ -13,10 +13,30 @@ export class InfectionBreakdownComponent implements OnInit {
   @Input() all_infection_info : Infection_info[];
 
   ngOnInit(): void {
-    this.sortByInfection();
+    this.sortByInfectionAsc();
   }
+  
+  
+  sortByInfectionDesc(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
 
-  sortByInfection(){
+    temp_data.sort(function(a, b) {
+      return a[0]-b[0];  
+    })
+
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
+
+    this.all_infection_info = sorted_data;
+  }
+  
+
+  sortByInfectionAsc(){
     let temp_data = [];
     for(let infection_data of this.all_infection_info) {
       temp_data.push([infection_data.infected, infection_data]);
