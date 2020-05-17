@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="title">Breakdown by Cities {{selected_province}}</div>
+
+    <div id="search-component">
+        <label for="search-box" class="city-search">City Search: </label>
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" placeholder="Please Type City Name" />
+    </div>
+
+    <div *ngIf="allCities" class="display_cities">
+        <div *ngIf="searchCities !== null && searchCities.length === 0; else search_cities">
+            <div class="all_cities" *ngFor="let city of allCities">
+                <p class="city_name">{{city.name}} </p> 
+                <span class="infection_info">{{city.infected}} infected and </span> <span>{{city.dead}} dead.</span>
+            </div>
+        </div>
+
+        <ng-template #search_cities>
+            <div class="search_cities" *ngFor="let city of searchCities">
+                <p class="city_name">{{city.name}} </p> 
+                <span class="infection_info">{{city.infected}} infected and </span> <span>{{city.dead}} dead.</span>
+            </div>
+        </ng-template>
+    </div>
+    
+</div>

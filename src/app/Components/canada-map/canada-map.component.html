@@ -1,0 +1,18 @@
+<div class="container">
+    <div *ngIf="myData" class="canadaMap" (window:resize)="onResize($event)">
+        <google-chart *ngIf="myData"
+            class="canadaMap"
+            [columns]="chartColumns"
+            [type]="type" 
+            [data]="myData" 
+            [options]="myOptions"
+            (chart)="chart"
+            (select)="onSelect($event)">
+        </google-chart>
+    </div>
+
+    <div class="buttons">
+        <button (click)="infectionButton()" class="infectionButton">Infection</button>
+        <button (click)="deadButton()" class="deadButton">Dead</button>
+    </div>
+</div>
