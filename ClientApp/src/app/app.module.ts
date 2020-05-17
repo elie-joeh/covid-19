@@ -28,9 +28,6 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     GoogleChartsModule,
     HttpClientModule,
-    RouterModule.forRoot([
-      { path: '', component: AppComponent }
-    ]),
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
