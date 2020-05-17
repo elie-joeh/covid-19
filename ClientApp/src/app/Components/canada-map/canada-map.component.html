@@ -1,0 +1,10 @@
+<div class="canadaMap" (window:resize)="onResize($event)">
+    <google-chart
+        class="canadaMap"
+        [type]="type" 
+        [data]="myData" 
+        [options]="myOptions"
+        (chart)="chart"
+        (select)="onSelect($event)">
+    </google-chart>
+</div>
