@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ErrorHandler } from '@angular/core';
-import { InfectionBreakdownService } from '../../Services/infection-breakdown.service';
 import { Infection_info } from '../../Interfaces/infection-info';
 
 @Component({
@@ -9,39 +8,50 @@ import { Infection_info } from '../../Interfaces/infection-info';
 })
 export class InfectionBreakdownComponent implements OnInit {
 
+  constructor() { }
 
-  constructor(private infectionBreakdownService : InfectionBreakdownService) { }
-
-  selected_province: string = 'Quebec';
-
-  all_infection_info : Infection_info[];
+  @Input() all_infection_info : Infection_info[];
 
   ngOnInit(): void {
-    this.infectionBreakdownService.selected_province_obs$.subscribe(
-      data => this.handleNewProvince(data)
-    );
-    this.getInfectionBreakdown()
+    this.sortByInfectionAsc();
   }
+  
+  
+  sortByInfectionDesc(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
 
-  getInfectionBreakdown() {
-    this.infectionBreakdownService.getInfectionInfo()
-      .subscribe(infection_info => this.all_infection_info = infection_info)
-    
-      //TODO: sort the provinces by infection
+    temp_data.sort(function(a, b) {
+      return a[0]-b[0];  
+    })
+
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
+
+    this.all_infection_info = sorted_data;
   }
+  
 
-  getInfectionByProvince(selected_province: string){
-    console.log(`getting infection information by province ${selected_province}`)
-    //TODO subscribe to the observable that you are receiving
-    //this.infectionBreakdownService.getInfecionInfoByProvince(selected_province)
-    
-  }
+  sortByInfectionAsc(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
 
+    temp_data.sort(function(a, b) {
+      return b[0]-a[0];  
+    })
 
-  //TODO: check if the data is incorrect and handle it
-  handleNewProvince(data) {
-    this.selected_province = data;
-    this.getInfectionBreakdown();
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
+
+    this.all_infection_info = sorted_data;
   }
 
 }

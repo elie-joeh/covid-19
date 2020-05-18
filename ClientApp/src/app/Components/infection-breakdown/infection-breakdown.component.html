@@ -1,7 +1,13 @@
 <div class="container">
     <div class="title">Breakdown by Province Descending</div>
-    <div *ngFor="let infection_info of all_infection_info" class="province_breakdown">
-        <p class="province_name">{{infection_info.province}} </p> 
-        <span class="infection_info">{{infection_info.infected}} infected and </span> <span>{{infection_info.dead}} dead.</span>
+    <div class="sorting">
+        <button (click)="sortByInfectionAsc()" class="button1">Sort Ascending</button>
+        <button (click)="sortByInfectionDesc()" class="button2">Sort Descending</button>
+    </div>
+    <div *ngIf="all_infection_info" class="province_breakdown">
+        <div *ngFor="let infection_info of all_infection_info" class="province">
+            <p class="province_name">{{infection_info.province}} </p> 
+            <span class="infection_info">{{infection_info.infected}} infected and </span> <span>{{infection_info.dead}} dead.</span>
+        </div>
     </div>
 </div>
