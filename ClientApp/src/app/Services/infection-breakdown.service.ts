@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Infection_info } from '../Interfaces/infection-info';
+import { Province } from '../Interfaces/Province';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -12,25 +12,25 @@ export class InfectionBreakdownService {
 
   public selected_province_obs$ = this.selected_province.asObservable();
 
-  private infection_breakdown_url = 'api/infection_info';
+  private infection_breakdown_url = 'api/Province';
 
   constructor(private http: HttpClient) { }
 
 
   //an observable from HttpClient always emits a single value and then completes, so never emit again
-  getInfectionInfo(): Observable<Infection_info[]>{
-    return this.http.get<Infection_info[]>(this.infection_breakdown_url)
+  getInfectionInfo(): Observable<Province[]>{
+    return this.http.get<Province[]>(this.infection_breakdown_url + "/GetAllProvinces")
         .pipe(
           tap(_ => console.log('fetched infection information')),
-          catchError(this.handleFetchError<Infection_info[]>('getInfectionInfo', []))
-        )
+          catchError(this.handleFetchError<Province[]>('getInfectionInfo', []))
+        );
   }
 
-  getInfecionInfoByProvince(province_name: string): Observable<Infection_info> {
+  getInfecionInfoByProvince(province_name: string): Observable<Province> {
     const url = `${this.infection_breakdown_url}/${province_name}`;
-    return this.http.get<Infection_info>(url).pipe(
+    return this.http.get<Province>(url).pipe(
       tap(_ => console.log(`fetched province infection information, name=${province_name}`)),
-      catchError(this.handleFetchError<Infection_info>(`get infection info by prov name=${province_name}`))
+      catchError(this.handleFetchError<Province>(`get infection info by prov name=${province_name}`))
     );
   } 
 

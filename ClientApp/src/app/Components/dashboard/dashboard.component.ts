@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InfectionBreakdownService } from 'src/app/Services/infection-breakdown.service';
 import { CitiesBreakdownService } from 'src/app/Services/cities-breakdown.service';
 import { ActivatedRoute } from '@angular/router';
-import { Infection_info } from 'src/app/Interfaces/infection-info';
-import { City } from 'src/app/Interfaces/city-info';
+import { Province } from 'src/app/Interfaces/Province';
+import { City } from 'src/app/Interfaces/City';
 
 /*
 This component is the wrapper component, which will call all the other components and display them
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   cities_breakdown_data: City[];
 
   //Data for Infection Breakdown Component
-  infection_breakdown_data: Infection_info[];
+  infection_breakdown_data: Province[];
 
   //Data for Restrictions breakdown component
   restrictions_breakdown_data: any;
@@ -43,8 +43,8 @@ export class DashboardComponent implements OnInit {
     let temp_province_infected_data = [];
     let temp_province_dead_data = [];
     for(let province of this.actr.snapshot.data['provinceInfectionData']) {
-      temp_province_infected_data.push([province.province, province.infected]);
-      temp_province_dead_data.push([province.province, province.dead]);
+      temp_province_infected_data.push([province.name, province.infected]);
+      temp_province_dead_data.push([province.name, province.dead]);
     }
     this.canada_map_data = temp_province_infected_data;
     this.province_infected = temp_province_infected_data;
@@ -54,8 +54,8 @@ export class DashboardComponent implements OnInit {
     //Retrieve data for Infection Breakdown Component
     let temp_data = [];
     for(let province_data of this.actr.snapshot.data['provinceInfectionData']) {
-      const infection_info = <Infection_info> {
-        province: province_data.province,
+      const infection_info = <Province> {
+        name: province_data.name,
         infected: province_data.infected,
         dead: province_data.dead
       }
@@ -66,10 +66,16 @@ export class DashboardComponent implements OnInit {
     //Retrieve dta for cities infection breakdown component
     temp_data = [];
     for(let city of this.actr.snapshot.data['citiesInfectionData']) {
+      const city_province = <Province> {
+        name: city.province.name,
+        infected: city.province.infected,
+        dead: city.province.dead
+      };
       const city_info = <City> {
         name: city.name,
         infected: city.infected,
-        dead: city.infected
+        dead: city.dead,
+        province: city_province
       }
       temp_data.push(city_info);
     }

@@ -4,7 +4,7 @@ import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
 
-import { City } from '../../Interfaces/city-info';
+import { City } from '../../Interfaces/City';
 import { CitiesBreakdownService } from '../../Services/cities-breakdown.service';
 
 @Component({
@@ -44,6 +44,8 @@ export class CitiesBreakdownComponent implements OnInit {
     this.cities$.subscribe(
       data => this.searchCities = data
     )
+
+    console.log(this.allCities);
 
   }
 
