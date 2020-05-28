@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="info_wrapper" *ngIf="isTable">
+    <div class="info_wrapper" *ngIf="isTable && !isInfected">
         <div class="table_breakdown">
             <div class="title">Breakdown by Province</div>
             <div class="header">
@@ -21,26 +21,34 @@
         
     </div>
 
-    <div class="chart_breakdown" *ngIf="!isTable">
+    <div class="infected_breakdown" *ngIf="!isTable && isInfected">
         <div class="title">Breakdown by Province</div>
         <div class="chartWrapper">
             <google-chart class="chart"
-                class="canadaMap"
-                [columns]="chartColumns"
+                [columns]="infectedColumns"
                 [type]="type" 
-                [data]="chartData" 
-                [options]="myOptions"
-                (chart)="chart">
+                [data]="infectedData" 
+                [options]="infectedOptions">
             </google-chart>
         </div>   
+    </div>
+
+    <div class="dead_breakdown" *ngIf="!isTable && !isInfected">
+        <div class="title">Breakdown by Province</div>
+        <div class="chartWapper">
+            
+        </div>
     </div>
 
     <div class="buttons">
         <button class="tablebutton button" (click)="tableClick()">
             Table    
         </button>
-        <button class="chartbutton button" (click)="chartClick()">
-            Chart
+        <button class="infectedbutton button" (click)="infectedClick()">
+            Infected
+        </button>
+        <button class="deadbutton button" (click)="deadClick()">
+            Dead
         </button>
     </div>
     

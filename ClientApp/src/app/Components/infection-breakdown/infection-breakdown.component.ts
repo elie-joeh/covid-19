@@ -12,34 +12,94 @@ export class InfectionBreakdownComponent implements OnInit {
 
   @Input() all_infection_info : Province[];
   isTable: boolean;
+  isInfected: boolean;
 
-
-  chartColumns: any;
+  //data for infected google chart
+  infectedColumns: any;
   type: any;
-  title: any;
-  myOptions: any;
-  chart: any;
-  chartData: any;
+  infectedTitle: any;
+  infectedOptions: any;
+  infectedData: any;
+
+  //data for dead google chart
+  deadColumns: any;
+  deadTitle: any;
+  deadOptions: any;
+  deadData: any;
 
   ngOnInit(): void {
     this.sortByInfectionAsc();
     this.isTable = false;
-    this.drawChart();
+    this.isInfected = true;
+    this.drawInfectedChart();
   }
   
-  drawChart() {
+  tableClick(): void {
+    this.isTable = true;
+    this.isInfected = false;
+  }
+
+  infectedClick(): void {
+    this.isTable = false;
+    this.isInfected = true;
+  }
+
+  deadClick(): void {
+    this.isInfected = false;
+    this.isTable = false;
+  }
+
+  sortByInfectionDesc(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
+
+    temp_data.sort(function(a, b) {
+      return a[0]-b[0];  
+    })
+
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
+
+    this.all_infection_info = sorted_data;
+  }
+  
+
+  sortByInfectionAsc(){
+    let temp_data = [];
+    for(let infection_data of this.all_infection_info) {
+      temp_data.push([infection_data.infected, infection_data]);
+    }
+
+    temp_data.sort(function(a, b) {
+      return b[0]-a[0];  
+    })
+
+    let sorted_data = [];
+    for(let data of temp_data) {
+      sorted_data.push(data[1]);
+    }
+
+    this.all_infection_info = sorted_data;
+  }
+
+  drawInfectedChart() {
     this.type = "ColumnChart"
-    this.title = "Infection Breakdown";
-    this.myOptions = {
+    this.infectedTitle = "Infection Breakdown";
+    this.infectedOptions = {
       legend: {position: 'bottom'},
-      width:  300,
-      height: 400,
+      bar: {groupWidth: '50%'},
+      bars: 'horizontal',
+      chartArea: {left: 25, top: 15, width: '90%', height: '80%'},
       backgroundColor: '#808080',
       orientation: 'vertical'
     };
-    this.chartColumns = ['Province', 'Infected', 'dead'];
+    this.infectedColumns = ['Province', 'Infected'];
 
-    this.chartData = [];
+    this.infectedData = [];
 
     for (var province of this.all_infection_info) {
       var province_name = "";
@@ -97,54 +157,9 @@ export class InfectionBreakdownComponent implements OnInit {
           break;
         }
       };
-      this.chartData.push([province_name, province.infected, province.dead]);
+      this.infectedData.push([province_name, province.infected]);
     }
     
-  }
-  
-  tableClick(): void {
-    this.isTable = true;
-  }
-
-  chartClick(): void {
-    this.isTable = false;
-  }
-
-  sortByInfectionDesc(){
-    let temp_data = [];
-    for(let infection_data of this.all_infection_info) {
-      temp_data.push([infection_data.infected, infection_data]);
-    }
-
-    temp_data.sort(function(a, b) {
-      return a[0]-b[0];  
-    })
-
-    let sorted_data = [];
-    for(let data of temp_data) {
-      sorted_data.push(data[1]);
-    }
-
-    this.all_infection_info = sorted_data;
-  }
-  
-
-  sortByInfectionAsc(){
-    let temp_data = [];
-    for(let infection_data of this.all_infection_info) {
-      temp_data.push([infection_data.infected, infection_data]);
-    }
-
-    temp_data.sort(function(a, b) {
-      return b[0]-a[0];  
-    })
-
-    let sorted_data = [];
-    for(let data of temp_data) {
-      sorted_data.push(data[1]);
-    }
-
-    this.all_infection_info = sorted_data;
   }
 
 }
