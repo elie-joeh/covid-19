@@ -1,13 +1,55 @@
 <div class="container">
-    <div class="title">Breakdown by Province Descending</div>
-    <div class="sorting">
-        <button (click)="sortByInfectionAsc()" class="button1">Sort Ascending</button>
-        <button (click)="sortByInfectionDesc()" class="button2">Sort Descending</button>
+    <div class="info_wrapper" *ngIf="isTable && !isInfected">
+        <div class="table_breakdown">
+            <div class="title">Breakdown by Province</div>
+            <div class="header">
+                
+                    <button (click)="sortByInfectionAsc()" class="ascbutton">Sort Ascending</button>
+                    <button (click)="sortByInfectionDesc()" class="descbutton">Sort Descending</button>
+                
+            </div>
+            <div class="info">
+                <div *ngIf="all_infection_info" class="province_breakdown">
+                    <div *ngFor="let infection_info of all_infection_info" class="province">
+                        <p class="province_name">{{infection_info.name}} </p> 
+                        <span class="infection_info">{{infection_info.infected}} infected and </span> <span>{{infection_info.dead}} dead.</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
     </div>
-    <div *ngIf="all_infection_info" class="province_breakdown">
-        <div *ngFor="let infection_info of all_infection_info" class="province">
-            <p class="province_name">{{infection_info.province}} </p> 
-            <span class="infection_info">{{infection_info.infected}} infected and </span> <span>{{infection_info.dead}} dead.</span>
+
+    <div class="infected_breakdown" *ngIf="!isTable && isInfected">
+        <div class="title">Breakdown by Province</div>
+        <div class="chartWrapper">
+            <google-chart class="chart"
+                [columns]="infectedColumns"
+                [type]="type" 
+                [data]="infectedData" 
+                [options]="infectedOptions">
+            </google-chart>
+        </div>   
+    </div>
+
+    <div class="dead_breakdown" *ngIf="!isTable && !isInfected">
+        <div class="title">Breakdown by Province</div>
+        <div class="chartWapper">
+            
         </div>
     </div>
+
+    <div class="buttons">
+        <button class="tablebutton button" (click)="tableClick()">
+            Table    
+        </button>
+        <button class="infectedbutton button" (click)="infectedClick()">
+            Infected
+        </button>
+        <button class="deadbutton button" (click)="deadClick()">
+            Dead
+        </button>
+    </div>
+    
 </div>

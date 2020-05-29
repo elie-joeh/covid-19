@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using covid19.Data;
 
-namespace covid19_backend_move_remove
+namespace covid19
 {
     public class Startup
     {
@@ -21,11 +22,15 @@ namespace covid19_backend_move_remove
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddTransient<IProvinceService, ProvinceService>();
+            services.AddTransient<ICityService, CityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

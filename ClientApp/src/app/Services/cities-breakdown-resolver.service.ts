@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable, empty } from 'rxjs';
 import { CitiesBreakdownService } from './cities-breakdown.service';
-import { City } from '../Interfaces/city-info';
+import { City } from '../Interfaces/City';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({

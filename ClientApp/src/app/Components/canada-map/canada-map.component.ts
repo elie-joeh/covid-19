@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
 import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
-import { Infection_info } from 'src/app/Interfaces/infection-info';
+import { Province } from 'src/app/Interfaces/Province';
 
 @Component({
   selector: 'app-canada-map',

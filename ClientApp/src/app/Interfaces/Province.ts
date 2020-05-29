@@ -1,4 +1,6 @@
-export interface City {
+export interface Province
+{
+    id: number;
     name: string;
     infected: number;
     dead: number;

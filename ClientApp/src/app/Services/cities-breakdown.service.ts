@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
-import { City } from '../Interfaces/city-info';
+import { City } from '../Interfaces/City';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -12,12 +12,12 @@ export class CitiesBreakdownService {
 
   public selected_province_obs$ = this.selected_province.asObservable();
 
-  private cities_breakdown_url = 'api/cities_info';
+  private cities_breakdown_url = 'api/City';
 
 
   //an observable from HttpClient always emits a single value and then completes, so never emit again
   getCitiesInfo(): Observable<City[]>{
-    return this.http.get<City[]>(this.cities_breakdown_url)
+    return this.http.get<City[]>(this.cities_breakdown_url  + "/GetAllCities")
         .pipe(
           tap(_ => console.log('fetched infection information')),
           catchError(this.handleFetchError<City[]>('getCitiesInfo', []))
@@ -25,14 +25,14 @@ export class CitiesBreakdownService {
   }
 
 
-  //GET cities whose name contains search term
+  //GET cities whose name contains search term /?name=${term}
   searchCities(term: string): Observable<City[]> {
     //nothing to search in this case
     if( !term.trim() ) {
       return of([]);
     }
 
-    return this.http.get<City[]>(`${this.cities_breakdown_url}/?name=${term}`).pipe(
+    return this.http.get<City[]>(this.cities_breakdown_url + "/searchCities/" + term ).pipe(
       tap(x => x.length ?
         console.log(`found cities mathcing "${term}"`) :
         console.log(`no cities matching "${term}"`)),
