@@ -10,6 +10,7 @@ import { RestrictionsBreakdownComponent } from './Components/restrictions-breakd
 import { HttpClientModule } from '@angular/common/http';
 import { CitiesBreakdownComponent } from './Components/cities-breakdown/cities-breakdown.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { EconomicBreakdownComponent } from './Components/economic-breakdown/economic-breakdown.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DashboardComponent } from './Components/dashboard/dashboard.component';
     InfectionBreakdownComponent,
     RestrictionsBreakdownComponent,
     CitiesBreakdownComponent,
-    DashboardComponent
+    DashboardComponent,
+    EconomicBreakdownComponent
   ],
   imports: [
     BrowserModule,

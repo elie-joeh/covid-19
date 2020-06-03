@@ -1,12 +1,24 @@
 .container
+    height: 90%
+    width: 100%
     position: relative
-    
+    background-color: #404040
+
+.info_wrapper
+    position: absolute
+    left: 0
+    top: 0
+    height: 90%
+    width: 100%
+    overflow-y: scroll
+    overflow-x: hidden
+
 .title
     color: white
     text-align: center
     margin: 0
     position: sticky
-    background-color: #808080
+    background-color: #404040
     top: 0
     font-weight: bold
     margin-bottom: 5px
@@ -48,3 +60,15 @@
 .infection_info
     margin: 0
     margin-left: 5px
+
+
+/* Create the layout of the scroll bar for the whole application*/
+\::-webkit-scrollbar
+  width: 5px
+
+\::-webkit-scrollbar-track
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+
+\::-webkit-scrollbar-thumb
+  background-color: darkgrey
+  outline: 1px solid slategrey

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="info_wrapper" *ngIf="isTable && !isInfected">
+        <div class="title">Covid Trends by Province</div>
         <div class="table_breakdown">
-            <div class="title">Breakdown by Province</div>
             <div class="header">
                 
                     <button (click)="sortByInfectionAsc()" class="ascbutton">Sort Ascending</button>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="infected_breakdown" *ngIf="!isTable && isInfected">
-        <div class="title">Breakdown by Province</div>
+        <div class="title">Covid Trends by Province</div>
         <div class="chartWrapper">
             <google-chart class="chart"
                 [columns]="infectedColumns"
@@ -34,7 +34,7 @@
     </div>
 
     <div class="dead_breakdown" *ngIf="!isTable && !isInfected">
-        <div class="title">Breakdown by Province</div>
+        <div class="title">Covid Trends by Province</div>
         <div class="chartWapper">
             
         </div>

@@ -49,8 +49,18 @@ export class CanadaMapComponent implements OnInit {
     this.drawChart();
   }
 
+  //TODO: show the CPI rate change since covid
+  cpiButton() {
+
+  }
+
+  //TODO: show the employment rate change since covid
+  employmentButton() {
+
+  }
 
   infectionButton() {
+    this.title = "Infection By Province";
     if(this.chart_status != 'infection'){
       this.chart_status = 'infection';
       this.uploaded.emit('infection');
@@ -58,6 +68,7 @@ export class CanadaMapComponent implements OnInit {
   }
 
   deadButton() {
+    this.title = "Death By Province";
     if(this.chart_status != 'dead') {
       this.chart_status  = 'dead';
       this.uploaded.emit('dead');
@@ -66,20 +77,17 @@ export class CanadaMapComponent implements OnInit {
 
   drawChart() {
     this.type = "GeoChart"
-    this.title = "Canada Map";
-    this.myOptions = {
-      region : 'CA',
-      displayMode : 'regions',
-      resolution : 'provinces'
-    };
+    this.title = "Infection By Province";
     
     this.myOptions = {
       region : 'CA',
       displayMode : 'regions',
       resolution : 'provinces',
-      backgroundColor: '#252525',
+      backgroundColor: '#404040',
       datalessRegionColor: '#4A4A4A',
-      colorAxis: {colors: ['#faebd7', '#ffc8a3', '#d9534f']}
+      colorAxis: {colors: ['#faebd7', '#ffc8a3', '#d9534f']},
+      legend: {textStyle: {bold: true}},
+      keepAspectRatio: true
     };
 
   }

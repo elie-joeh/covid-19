@@ -1,37 +1,48 @@
 .container
-    width: 100%
     height: 100%
+    width: 100%
     position: relative
 
-.wrapper
+
+.info_wrapper
     position: absolute
     left: 0
     top: 0
-    height: 84%
+    height: 90%
     width: 100%
     background-color: #404040
 
 .title
-    position: sticky
-    height: 7%
-    width: 100%
+    positon: absolute
     color: white
     text-align: center
     background-color: #404040
     font-weight: bold
+    height: 7%
 
-.canadaMap
-    height: 100%
-    width: 100%
 
-.buttons
+.header-buttons
+    position: absolute
+    left: 7px
+
+.period-bttn
+    float: left
+    padding: 5px 12px
+    border: none
+    margin-right: 7px
+    border-radius: 4px
+    &:hover
+        background-color: #a3a3a37c
+        cursor: pointer
+
+.economic-buttons
     position: absolute
     bottom: 0
     left: 10px
     height: 10%
     width: 90%
-    
-.infectionButton, .deadButton, .cpiButton, .emplButton
+
+.cpi-button, .employment-button, .retail-trade
     float: left
     padding: 5px 12px
     background-color: #404040
@@ -43,10 +54,3 @@
     &:hover
         background-color: #a3a3a37c
         cursor: pointer
-
-.data_note
-    position: relative
-    bottom: 0
-    right: 0
-    color: white
-    

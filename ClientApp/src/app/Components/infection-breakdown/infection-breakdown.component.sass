@@ -9,18 +9,19 @@
     top: 0
     height: 90%
     width: 100%
-    background-color: #808080
+    background-color: #404040
     overflow-y: scroll
     overflow-x: hidden
 
 .title
-    position: -webkit-sticky
-    position: sticky
+    background-color: #404040
     color: white
     text-align: center
-    background-color: #808080
+    margin: 0
+    position: sticky
+    top: 0
     font-weight: bold
-    height: 7%
+    margin-bottom: 5px
     
 .table_breakdown, .chartWrapper
     position: relative
@@ -28,14 +29,14 @@
     height: 100%
 
 .header
-    width: 100%
-    height: 10%
-    background-color: #808080
+    position: absolute
+    left: 7px
 
 .info
     position: absolute
     width: 100%
     height: 80%
+    margin-top: 25px
     
 
 .buttons
@@ -46,7 +47,7 @@
     width: 90%    
 
 .province_breakdown
-    margin-top: 2px
+    margin-top: 0px
 
 .province
     bottom: 10px
@@ -60,21 +61,12 @@
         background-color: #a3a3a37c
 
 
-.ascbutton
+.ascbutton, .descbutton
     float: left
-    width: 50%
-    text-align: center
-    box-sizing: border-box
+    padding: 5px 12px
     border: none
-    &:hover
-        background-color: #808080
-        cursor: pointer
-
-.descbutton
-    float: right
-    width: 50%
-    text-align: center
-    border: none
+    margin-right: 7px
+    border-radius: 4px
     &:hover
         background-color: #a3a3a37c
         cursor: pointer
@@ -94,7 +86,7 @@
 .button
     float: left
     padding: 5px 12px
-    background-color: #808080
+    background-color: #404040
     color: white
     border: none
     margin-right: 5px

@@ -1,8 +1,9 @@
   
 <html>
   <body>
+    <div class="container">
       <div class="header">
-          <h1 style="color: white">Canada's Covid-19 Infection and Regulation Breakdown</h1>
+          <h1 style="color: white">Canada's Covid-19 Trends and Economic Impact</h1>
       </div>
   
       <div class="main_body">
@@ -12,7 +13,8 @@
           </div>
           
           <div class="column map">
-            <app-canada-map (uploaded)="getProvInfectionBreakdown($event)" [myData]="canada_map_data" [chartColumns]="chart_columns"></app-canada-map>
+            <app-canada-map class="canada_map" (uploaded)="getProvInfectionBreakdown($event)" [myData]="canada_map_data" [chartColumns]="chart_columns"></app-canada-map>
+            <app-economic-breakdown class="economic-breakdown"></app-economic-breakdown>
           </div>
           
           <div class="column infection">
@@ -25,5 +27,6 @@
             </div>
           </div>
       </div>
+    </div>
   </body>
 </html>
