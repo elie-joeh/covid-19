@@ -17,7 +17,7 @@ const routes: Routes = [
     resolve: {
       provinceInfectionData: InfectionBreakdownResolverService,
       citiesInfectionData: CitiesBreakdownResolverService
-    }
+    },
   },
   {
     path: '',

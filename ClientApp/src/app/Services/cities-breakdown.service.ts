@@ -8,10 +8,6 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CitiesBreakdownService {
-  public selected_province : Subject<any> = new Subject<any>();
-
-  public selected_province_obs$ = this.selected_province.asObservable();
-
   private cities_breakdown_url = 'api/City';
 
 

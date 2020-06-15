@@ -7,17 +7,17 @@ namespace covid19.Data
     {
         public List<Province> getAllProvinces()
         {
-            return Data.Provinces.ToList();
+            return ProvinceData.Provinces.ToList();
         }
 
         public Province getProvinceById(int id)
         {
-            return Data.Provinces.FirstOrDefault(n => n.Id == id);
+            return ProvinceData.Provinces.FirstOrDefault(n => n.Id == id);
         }
 
         public Province getProvinceByName(string name)
         {
-            return Data.Provinces.FirstOrDefault(n => n.Name == name);
+            return ProvinceData.Provinces.FirstOrDefault(n => n.Name == name);
         }
     }
 }

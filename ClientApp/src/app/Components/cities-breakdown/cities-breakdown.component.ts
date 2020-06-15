@@ -6,6 +6,7 @@ import {
 
 import { City } from '../../Interfaces/City';
 import { CitiesBreakdownService } from '../../Services/cities-breakdown.service';
+import { ProvinceSelectionService } from 'src/app/Services/province-selection.service';
 
 @Component({
   selector: 'app-cities-breakdown',
@@ -23,12 +24,13 @@ export class CitiesBreakdownComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
-  constructor(private citiesBreakdownService: CitiesBreakdownService) { }
+  constructor(private citiesBreakdownService: CitiesBreakdownService,
+              private provinceSelectionService: ProvinceSelectionService) { }
 
   ngOnInit(): void {
-    this.citiesBreakdownService.selected_province_obs$.subscribe(
+    this.provinceSelectionService.selected_province_obs$.subscribe(
       data => this.handleNewProvince(data)
-    ); 
+    );
     
     this.cities$ = this.searchTerms.pipe (
       //wait 300ms after each keystroke before considering the term
@@ -43,10 +45,8 @@ export class CitiesBreakdownComponent implements OnInit {
 
     this.cities$.subscribe(
       data => this.searchCities = data
-    )
-
-    console.log(this.allCities);
-
+    );
+    
   }
 
   //TODO: check if the data is incorrect and handle it

@@ -1,20 +1,40 @@
 <div class="container">
 
-    <div class="info_wrapper">
-        <div class="title">Covid Economic Impact By Province</div>
+    <div class="info-wrapper">
+        <div class="title">{{title}}</div>
         
         <div class="header-buttons">
-            <button class="period-bttn">1 month % change</button>
-            <button class="period-bttn">12 month % change</button>
-            <button class="period-bttn">Index</button>
+            <button class="period-bttn" (click)="monthChange()">1 month % change</button>
+            <button class="period-bttn" (click)="yearChange()">12 month % change</button>
+            <button class="period-bttn" (click)="indexChange()">Index</button>
         </div>
+        
+        <main [class]="theme">
+            <div class="data-charts">
+                <ngx-charts-line-chart
+                    [scheme]="cpi_colorScheme"
+                    [legend]="cpi_legend"
+                    [showXAxisLabel]="cpi_showXAxisLabel"
+                    [showYAxisLabel]="cpi_showYAxisLabel"
+                    [showGridLines]="cpi_showGridLines"
+                    [gradient]="cpi_gradient"
+                    [xAxis]="cpi_xAxis"
+                    [yAxis]="cpi_yAxis"
+                    [xAxisLabel]="cpi_xAxisLabel"
+                    [yAxisLabel]="cpi_yAxisLabel"
+                    [timeline]="cpi_timeline"
+                    [results]="cpi_data"
+                    >
+                </ngx-charts-line-chart>
+            </div>
+        </main>
 
     </div>
 
     <div class="economic-buttons">
-        <button class="cpi-button">CPI</button>
-        <button class="employment-button">Employment</button>
-        <button class="retail-trade">Retail</button>
+        <button class="cpi-button" (click)="cpiButton()">CPI</button>
+        <button class="employment-button" (click)="employmentButton()">Employment</button>
+        <button class="retail-trade" (click)="retailButton()">Retail</button>
     </div>
 
 </div>

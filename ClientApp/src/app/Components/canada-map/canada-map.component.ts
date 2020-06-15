@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
 import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
 import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
 import { Province } from 'src/app/Interfaces/Province';
+import { ProvinceSelectionService } from 'src/app/Services/province-selection.service';
 
 @Component({
   selector: 'app-canada-map',
@@ -24,7 +25,8 @@ export class CanadaMapComponent implements OnInit {
   private chart_status: string;
 
   constructor(private infectionBreakdownService : InfectionBreakdownService,
-              private citiesBreakdownService: CitiesBreakdownService) {
+              private citiesBreakdownService: CitiesBreakdownService,
+              private provinceSelectionService: ProvinceSelectionService) {
   }
 
   /*
@@ -40,8 +42,7 @@ export class CanadaMapComponent implements OnInit {
     
     this.selected_province = this.myData[row_nb][0];
     
-    this.infectionBreakdownService.selected_province.next(this.selected_province);
-    this.citiesBreakdownService.selected_province.next(this.selected_province);
+    this.provinceSelectionService.selected_province.next(this.selected_province);
   }
 
   ngOnInit(): void {
