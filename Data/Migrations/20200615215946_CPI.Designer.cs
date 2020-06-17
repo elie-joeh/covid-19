@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using covid19.Data;
 
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200615215946_CPI")]
+    partial class CPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace covid19.Data.Migrations
 
                     b.Property<decimal>("Coordinate")
                         .HasColumnType("decimal(7,4)");
-
-                    b.Property<string>("DGUID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GeographyName")
                         .HasColumnType("nvarchar(450)");
@@ -72,7 +71,7 @@ namespace covid19.Data.Migrations
 
             modelBuilder.Entity("covid19.Data.CPI", b =>
                 {
-                    b.HasOne("covid19.Data.Geography", "Geography")
+                    b.HasOne("covid19.Data.Geography", "geo")
                         .WithMany("CPIs")
                         .HasForeignKey("GeographyName");
                 });

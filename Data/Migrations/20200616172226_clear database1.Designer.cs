@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using covid19.Data;
 
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200616172226_clear database1")]
+    partial class cleardatabase1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +74,7 @@ namespace covid19.Data.Migrations
 
             modelBuilder.Entity("covid19.Data.CPI", b =>
                 {
-                    b.HasOne("covid19.Data.Geography", "Geography")
+                    b.HasOne("covid19.Data.Geography", "geo")
                         .WithMany("CPIs")
                         .HasForeignKey("GeographyName");
                 });

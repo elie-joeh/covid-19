@@ -33,13 +33,13 @@ namespace covid19.Data
             return CityData.Cities.FirstOrDefault(n => n.Name == name);
         }
 
-        public Province getProinveOfCityByCity(int id)
+        public Geography getProinveOfCityByCity(int id)
         {
             City this_city = CityData.Cities.FirstOrDefault(n => n.Id == id);
             return this_city.Province;
         }
 
-        public Province getProvinceOfCityByName(string name)
+        public Geography getProvinceOfCityByName(string name)
         {
             City this_city = CityData.Cities.FirstOrDefault(n => n.Name == name);
             return this_city.Province;

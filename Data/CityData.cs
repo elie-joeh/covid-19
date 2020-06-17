@@ -14,8 +14,7 @@ namespace covid19.Data
                 Name="Montreal",
                 Infected=1500,
                 Dead=100,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Quebec",
                     Infected=15000,
                     Dead=400
@@ -27,8 +26,7 @@ namespace covid19.Data
                 Name="Mont Tremblant",
                 Infected=15,
                 Dead=4,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Quebec",
                     Infected=15000,
                     Dead=400
@@ -40,8 +38,7 @@ namespace covid19.Data
                 Name="Magog",
                 Infected=10,
                 Dead=3,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Quebec",
                     Infected=15000,
                     Dead=400
@@ -53,8 +50,7 @@ namespace covid19.Data
                 Name="Toronto",
                 Infected=2000,
                 Dead=150,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Ontario",
                     Infected=15000,
                     Dead=400
@@ -66,8 +62,7 @@ namespace covid19.Data
                 Name="York",
                 Infected=50,
                 Dead=6,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Ontario",
                     Infected=15000,
                     Dead=400
@@ -79,8 +74,7 @@ namespace covid19.Data
                 Name="Calgary",
                 Infected=700,
                 Dead=100,
-                Province = new Province {
-                    Id=1,
+                Province = new Geography {
                     Name="Alberta",
                     Infected=15000,
                     Dead=400
@@ -92,8 +86,7 @@ namespace covid19.Data
                 Name="Vancouver",
                 Infected=1000,
                 Dead=200,
-                Province=new Province {
-                    Id=1,
+                Province=new Geography {
                     Name="British Columbia",
                     Infected=15000,
                     Dead=400
@@ -105,8 +98,7 @@ namespace covid19.Data
                 Name="Edmonton",
                 Infected=400,
                 Dead=50,
-                Province=new Province {
-                    Id=1,
+                Province=new Geography {
                     Name="Alberta",
                     Infected=15000,
                     Dead=400

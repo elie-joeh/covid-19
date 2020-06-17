@@ -8,7 +8,7 @@ namespace covid19.Data
         List<City> GetCitiesBySearchName(string name);
         City getCityById(int id);
         City getCityByName(string name);
-        Province getProvinceOfCityByName(string name);
-        Province getProinveOfCityByCity(int id);
+        Geography getProvinceOfCityByName(string name);
+        Geography getProinveOfCityByCity(int id);
     }
 }

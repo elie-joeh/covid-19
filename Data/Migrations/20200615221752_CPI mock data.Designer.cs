@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using covid19.Data;
 
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200615221752_CPI mock data")]
+    partial class CPImockdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace covid19.Data.Migrations
 
                     b.Property<decimal>("Coordinate")
                         .HasColumnType("decimal(7,4)");
-
-                    b.Property<string>("DGUID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GeographyName")
                         .HasColumnType("nvarchar(450)");
@@ -68,11 +67,37 @@ namespace covid19.Data.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Geography");
+
+                    b.HasData(
+                        new
+                        {
+                            Name = "Canada",
+                            Dead = 3999,
+                            Infected = 50000
+                        },
+                        new
+                        {
+                            Name = "Quebec",
+                            Dead = 500,
+                            Infected = 10000
+                        },
+                        new
+                        {
+                            Name = "Ontario",
+                            Dead = 399,
+                            Infected = 7000
+                        },
+                        new
+                        {
+                            Name = "Alberta",
+                            Dead = 200,
+                            Infected = 5000
+                        });
                 });
 
             modelBuilder.Entity("covid19.Data.CPI", b =>
                 {
-                    b.HasOne("covid19.Data.Geography", "Geography")
+                    b.HasOne("covid19.Data.Geography", "geo")
                         .WithMany("CPIs")
                         .HasForeignKey("GeographyName");
                 });

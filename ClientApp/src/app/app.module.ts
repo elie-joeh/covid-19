@@ -13,6 +13,7 @@ import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { EconomicBreakdownComponent } from './Components/economic-breakdown/economic-breakdown.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataseedingComponent } from './Components/dataseeding/dataseeding.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RestrictionsBreakdownComponent,
     CitiesBreakdownComponent,
     DashboardComponent,
-    EconomicBreakdownComponent
+    EconomicBreakdownComponent,
+    DataseedingComponent
   ],
   imports: [
     BrowserModule,

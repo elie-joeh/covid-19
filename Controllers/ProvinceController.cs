@@ -20,13 +20,6 @@ namespace covid19.Controllers
             return Ok(allProvinces);
         }
 
-        [HttpGet("SingleProvince/{id}")]
-        public IActionResult GetProvinceById(int id)
-        {
-            var province = _service.getProvinceById(id);
-            return Ok(province);
-        }
-
         [HttpGet("SingleProvince{name}")]
         public IActionResult GetProvinceByName(string name)
         {

@@ -15,20 +15,22 @@ namespace covid19.Data
         }
         #endregion Constructor
 
-        
+
         #region Methods
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             //Map Entity names to DB Table names
-            modelBuilder.Entity<Province>().ToTable("Provinces");
+            modelBuilder.Entity<Geography>().ToTable("Geography");
+            modelBuilder.Entity<CPI>().ToTable("CPI");
         }
         #endregion Methods
 
 
         #region Properties
-        public DbSet<Province> Provinces {get; set;}
+        public DbSet<Geography> Geographies {get; set;}
+        public DbSet<CPI> CPIs {get; set;}
         #endregion Properties
     }
 }

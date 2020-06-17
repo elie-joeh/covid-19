@@ -24,20 +24,7 @@ namespace covid19.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CPI>>> getCPIs()
         {
-            return await _context.CPIs;
-        }
-
-        
-        // GET: api/Cities/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<City>> GetCPIByDGUID(string DGUID)
-        {
-            var CPIs = await _context.CPIs.;
-            if (city == null)
-            {
-            return NotFound();
-            }
-            return city;
+            return await _context.CPIs.ToListAsync();
         }
 
 

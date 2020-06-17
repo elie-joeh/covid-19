@@ -4,11 +4,9 @@ namespace covid19.Data
 {
     public interface IProvinceService
     {
-        List<Province> getAllProvinces();
+        List<Geography> getAllProvinces();
 
-        Province getProvinceById(int id);
-
-        Province getProvinceByName(string name);
+        Geography getProvinceByName(string name);
 
     }
 }

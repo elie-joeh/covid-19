@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { InfectionBreakdownResolverService } from './Services/infection-breakdown-resolver.service';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { CitiesBreakdownResolverService } from './Services/cities-breakdown-resolver.service';
+import { DataseedingComponent } from './Components/dataseeding/dataseeding.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
       provinceInfectionData: InfectionBreakdownResolverService,
       citiesInfectionData: CitiesBreakdownResolverService
     },
+  },
+  {
+    path: 'data',
+    component: DataseedingComponent
   },
   {
     path: '',

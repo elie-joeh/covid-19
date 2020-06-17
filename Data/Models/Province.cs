@@ -1,11 +1,30 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace covid19.Data
 {
-    public class Province
+    public class Geography
     {
-        public int Id {get; set;}
+        #region Constructor
+        public Geography()
+        {
+
+        }
+        #endregion
+
+        #region Properties
+        [Key]
+        [Required]
+        /// <summary>
+        /// The unique name of geography
+        /// </summary>
         public string Name {get; set;}
-        public int Infected{get; set;}
-        public int Dead{get; set;}
+        public int Infected {get; set;}
+        public int Dead {get; set;}
+        #endregion
+
+        #region Relations
+        public List<CPI> CPIs {get; set;}
+        #endregion
     }
 }

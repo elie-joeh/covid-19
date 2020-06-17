@@ -6,6 +6,6 @@ namespace covid19.Data
         public string Name {get; set;}
         public int Infected {get; set;}
         public int Dead {get; set;}
-        public Province Province{get; set;}
+        public Geography Province{get; set;}
     }
 }
