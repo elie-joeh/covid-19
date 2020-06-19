@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using covid19.Data;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace covid19.Controllers
 {
@@ -12,19 +14,36 @@ namespace covid19.Controllers
     [ApiController]
     public class CPIController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private ICPIService _service;
-        public CPIController(ApplicationDbContext context, ICPIService service)
+        private readonly ICPIService _cpiService;
+        public CPIController(ICPIService cpiService)
         {
-            _context = context;
-            _service = service;
+            _cpiService = cpiService;
         }
 
         //Get: api/getCPIs
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CPI>>> getCPIs()
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<CPI>> getCPIs()
         {
-            return await _context.CPIs.ToListAsync();
+            return await _cpiService.getCPIs();
+        }
+
+        [HttpGet("getCPIByGeo/{geographyName}")]
+        public async Task<IEnumerable<CPI>> getCPIByGeo(string geographyName)
+        {
+            return await _cpiService.getCPIByGeo(geographyName);
+        }
+
+        [HttpGet("getCPIByPpdg/{ppdg}")]
+        public async Task<IEnumerable<CPI>> getCPIByPpdg(string ppdg)
+        {
+            return await _cpiService.getCPIByPpdg(ppdg);
+        }
+
+
+        [HttpGet("getCPIByGeoByPPG/{geographyName}/{ppdg}")]
+        public async Task<IEnumerable<CPI>> getCPIByGeoByPPG(string geographyName, string ppdg)
+        {
+            return await _cpiService.getCPIByGeoByPPG(geographyName, ppdg);
         }
 
 

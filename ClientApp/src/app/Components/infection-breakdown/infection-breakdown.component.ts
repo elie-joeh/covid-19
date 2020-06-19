@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ErrorHandler } from '@angular/core';
 import { Province } from '../../Interfaces/Province';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-infection-breakdown',
@@ -8,7 +9,7 @@ import { Province } from '../../Interfaces/Province';
 })
 export class InfectionBreakdownComponent implements OnInit {
 
-  constructor() { }
+  constructor(private actr: ActivatedRoute) { }
 
   @Input() all_infection_info : Province[];
   isTable: boolean;
@@ -28,6 +29,16 @@ export class InfectionBreakdownComponent implements OnInit {
   deadData: any;
 
   ngOnInit(): void {
+
+    //Retreive data for Canada Map Component, and set the input to the component to be the infection number
+    let temp_province_infected_data = [];
+    let temp_province_dead_data = [];
+    for(let province of this.actr.snapshot.data['provinceInfectionData']) {
+      temp_province_infected_data.push([province.name, province.infected]);
+      temp_province_dead_data.push([province.name, province.dead]);
+    }
+    console.log("I am here bithces ", temp_province_infected_data);
+
     this.sortByInfectionAsc();
     this.isTable = false;
     this.isInfected = true;
