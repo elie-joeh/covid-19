@@ -5,7 +5,6 @@
         
         <div class="header-buttons">
             <button class="period-bttn" (click)="monthChange()">1 month % change</button>
-            <button class="period-bttn" (click)="yearChange()">12 month % change</button>
             <button class="period-bttn" (click)="indexChange()">Index</button>
         </div>
         
@@ -22,6 +21,7 @@
                     [yAxis]="cpi_yAxis"
                     [xAxisLabel]="cpi_xAxisLabel"
                     [yAxisLabel]="cpi_yAxisLabel"
+                    [autoScale]="cpi_autoScale"
                     [timeline]="cpi_timeline"
                     [results]="cpi_data"
                     >

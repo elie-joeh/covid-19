@@ -9,6 +9,7 @@ import { InfectionBreakdownResolverService } from './Services/infection-breakdow
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { CitiesBreakdownResolverService } from './Services/cities-breakdown-resolver.service';
 import { DataseedingComponent } from './Components/dataseeding/dataseeding.component';
+import { CpiResolverService } from './Services/CPI Services/cpi-resolver.service';
 
 
 const routes: Routes = [
@@ -17,8 +18,10 @@ const routes: Routes = [
     component: DashboardComponent,
     resolve: {
       provinceInfectionData: InfectionBreakdownResolverService,
-      citiesInfectionData: CitiesBreakdownResolverService
+      citiesInfectionData: CitiesBreakdownResolverService,
+      CPIData: CpiResolverService
     },
+    data: {resolveData: 'resolveData'}
   },
   {
     path: 'data',

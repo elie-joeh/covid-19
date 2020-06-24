@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ProvinceSelectionService } from 'src/app/Services/province-selection.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CanadaMapComponent } from '../canada-map/canada-map.component';
+import { CpiGeneralService } from 'src/app/Services/CPI Services/cpi-general.service';
 
 @Component({
   selector: 'app-economic-breakdown',
@@ -12,11 +14,12 @@ export class EconomicBreakdownComponent implements OnInit {
   //Data info
   economic_metric: string = 'CPI';
   economic_range: string = 'month';
-  selected_province: string = 'Quebec';
+  selected_provinces: string[] = [];
+  all_data: any;
 
   //global variables
   theme = 'dark';
-  title = 'Covid-19 Impact On ' + this.economic_metric + ' in ' + this.selected_province;
+  title = 'Covid-19 Impact On ' + this.economic_metric;
 
   //cpi ngx chart components
   cpi_legend: boolean = true;
@@ -26,8 +29,9 @@ export class EconomicBreakdownComponent implements OnInit {
   cpi_yAxis: boolean = true;
   cpi_showYAxisLabel: boolean = true;
   cpi_showXAxisLabel: boolean = true;
+  cpi_autoScale: boolean = true;
   cpi_xAxisLabel: string = 'Month';
-  cpi_yAxisLabel: string = '1-month % change';
+  cpi_yAxisLabel: string = 'Index';
   cpi_timeline: boolean = true;
   cpi_multi: any[];
   cpi_view: any[] = [700, 300];
@@ -37,30 +41,107 @@ export class EconomicBreakdownComponent implements OnInit {
 
   cpi_showGridLines: boolean = true;
   cpi_gradient: boolean = true;
+  cpi_data_index: any;
+  cpi_data_percentage: any;
+  cpi_data: any;
+  
 
   constructor(private provinceSelectionService: ProvinceSelectionService,
-              private actr: ActivatedRoute) { }
+              private actr: ActivatedRoute,
+              private cpiService: CpiGeneralService) { }
 
   ngOnInit(): void {
+      //by default, start with only showing the CA data
+      this.selected_provinces = ['CA'];
+
+      //get all data for all provinces, then later on change what should be displayed, to minimize http calls
+      let data = this.cpiService.getCPIByPPDG('All-items').subscribe(
+        data => {
+          this.all_data = data;
+          this.handleCPIData(data);
+        }
+      );
+      
+      //subscriber that will catch the selected new provinces
       this.provinceSelectionService.selected_province_obs$.subscribe(
         data => this.handleNewProvince(data)
-      );
-  
+      ); 
   }
 
+  private handleCPIData(data): void {
+    let geos = [];
+
+    for(let cpi of data){
+      let geoName = cpi.geographyName;
+        let flag = 0;
+        for(let geo of geos){
+          if(geo.name == geoName){
+            flag = 1;
+            geo.series.push({"name": cpi.reference_date.substring(0, 7), "value": cpi.value});
+            break;
+          }
+        }
+        
+        if (flag == 0) {
+          let geo_unit = {"name": cpi.geographyName, "series": [{"name": cpi.reference_date.substring(0, 7), "value": cpi.value}]};
+          geos.push(geo_unit);
+        } 
+    }
+
+    this.cpi_data_index = geos;
+    
+    this.populateCPIData(this.cpi_data_index);
+
+  }
+
+  private populateCPIData(data): void {
+    let geos = [];
+
+    for(let cpi of data){
+      let geoName = cpi.name;
+      if (this.selected_provinces.includes(geoName)){
+        geos.push(cpi);
+      }      
+    }
+
+    this.cpi_data = geos;
+  }
+
+  /**
+   * This method will firstly check if percentage data has been calculated. If not, it will calculate
+   * the data and store it in a global variable. Then, in either case, it will modify the data variable
+   * to reflect the changes to the user
+   */
   monthChange(): void {
     this.economic_range = 'month';
     this.cpi_yAxisLabel = '1-month % change';
+
+    if(this.cpi_data_percentage == null) {
+      this.cpi_data_percentage = [];
+      for(let cpi of this.cpi_data_index) {
+        let geoName = cpi.name;
+        let index_values = cpi.series;
+        let percentages = [];
+        for(var i=1; i<index_values.length; i++) {
+          var percentage_value = ((index_values[i].value - index_values[i-1].value) / index_values[i].value) * 100;
+          var date = index_values[i].name;
+          
+          percentages.push({"name": date, "value": percentage_value});
+        }
+
+        this.cpi_data_percentage.push({"name": geoName, "series": percentages});
+      }
+    }
+
+    this.populateCPIData(this.cpi_data_percentage);
+    
   }
 
-  yearChange(): void {
-    this.economic_range = 'year';
-    this.cpi_yAxisLabel = '12-month % change';
-  }
 
   indexChange(): void {
     this.economic_range = 'index';
     this.cpi_yAxisLabel = 'Index';
+    this.populateCPIData(this.cpi_data_index);
   }
 
   cpiButton(): void {
@@ -78,160 +159,49 @@ export class EconomicBreakdownComponent implements OnInit {
     this.updateTitle();
   }
 
+  //TODO: maybe remove this method
   updateTitle(): void{
-    this.title = 'Covid Economic Impact On ' + this.economic_metric + ' in ' + this.selected_province;
+    this.title = 'Covid Economic Impact On ' + this.economic_metric;
   }
 
+  /*
+  In this method, we add or remove the selected province from the array, and then we populate again
+  the array of data that will be displayed to the user.
+  */
   //TODO: check if the data is incorrect and handle it
-  handleNewProvince(data) {
-    this.selected_province = data;
-    this.title = 'Covid Economic Impact On ' + this.economic_metric + ' in ' + data;
+  private handleNewProvince(data) {
+    data = this.changeNotation(data);
+
+    if(this.selected_provinces.includes(data)){
+      const index = this.selected_provinces.indexOf(data, 0);
+      if (index > -1){
+        this.selected_provinces.splice(index, 1);
+      }
+
+    } else {
+      this.selected_provinces.push(data);
+    }
+
+    this.populateCPIData(this.cpi_data_index);
   }
 
-  cpi_data = [
-    {
-      "name": "Quebec",
-      "series": [
-        {
-          "name": "Jan 2019",
-          "value": 0.1
-        },
-        {
-          "name": "Fev 2019",
-          "value": 0.7
-        },
-        {
-          "name": "Mar 2019",
-          "value": 0.7
-        },
-        {
-          "name": "Apr 2019",
-          "value": 0.4
-        },
-        {
-          "name": "May 2019",
-          "value": 0.4
-        },
-        {
-          "name": "Jun 2019",
-          "value": -0.2
-        },
-        {
-          "name": "Jul 2019",
-          "value": 0.5
-        },
-        {
-          "name": "Aug 2019",
-          "value": -0.1
-        },
-        {
-          "name": "Sep 2019",
-          "value": -0.4
-        },
-        {
-          "name": "Oct 2019",
-          "value": 0.3
-        },
-        {
-          "name": "Nov 2019",
-          "value": -0.1
-        },
-        {
-          "name": "Dec 2019",
-          "value": 0
-        },
-        {
-          "name": "Jan 2020",
-          "value": 0.3
-        },
-        {
-          "name": "Feb 2020",
-          "value": 0.4
-        },
-        {
-          "name": "Mar 2020",
-          "value": -0.6
-        },
-        {
-          "name": "Apr 2020",
-          "value": -0.7
-        }
-      ]
-    },
-    {
-      "name": "Ontario",
-      "series": [
-        {
-          "name": "Jan 2019",
-          "value": 0.2
-        },
-        {
-          "name": "Fev 2019",
-          "value": 0.3
-        },
-        {
-          "name": "Mar 2019",
-          "value": 0.4
-        },
-        {
-          "name": "Apr 2019",
-          "value": 0.1
-        },
-        {
-          "name": "May 2019",
-          "value": 0.5
-        },
-        {
-          "name": "Jun 2019",
-          "value": -0.3
-        },
-        {
-          "name": "Jul 2019",
-          "value": 0.4
-        },
-        {
-          "name": "Aug 2019",
-          "value": -0.1
-        },
-        {
-          "name": "Sep 2019",
-          "value": -0.6
-        },
-        {
-          "name": "Oct 2019",
-          "value": 0.2
-        },
-        {
-          "name": "Nov 2019",
-          "value": -0.2
-        },
-        {
-          "name": "Dec 2019",
-          "value": 0
-        },
-        {
-          "name": "Jan 2020",
-          "value": 0.3
-        },
-        {
-          "name": "Feb 2020",
-          "value": 0.5
-        },
-        {
-          "name": "Mar 2020",
-          "value": -0.6
-        },
-        {
-          "name": "Apr 2020",
-          "value": -0.8
-        }
-      ]
-    },
-
-  
-  
-  
-  
-  ];
+  //To remove once fetching province data form database in done
+  private changeNotation(data){
+    if(data=='Quebec'){
+      return 'QC';
+    } else if(data == 'Ontario'){
+      return 'ON';
+    } else if(data == 'Alberta'){
+      return 'AB';
+    } else if(data == 'British Columbia'){
+      return 'BC';
+    } else if(data == 'Saskatchewan'){
+      return 'SK';
+    } else if(data == 'Manitoba'){
+      return 'MB';
+    } else {
+      return '';
+    }
+  }
 
 }

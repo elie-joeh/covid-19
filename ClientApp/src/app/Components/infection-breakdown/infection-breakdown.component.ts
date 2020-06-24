@@ -37,7 +37,6 @@ export class InfectionBreakdownComponent implements OnInit {
       temp_province_infected_data.push([province.name, province.infected]);
       temp_province_dead_data.push([province.name, province.dead]);
     }
-    console.log("I am here bithces ", temp_province_infected_data);
 
     this.sortByInfectionAsc();
     this.isTable = false;

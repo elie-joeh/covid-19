@@ -19,6 +19,9 @@ to the children components using te Input decorator.
 })
 export class DashboardComponent implements OnInit {
 
+  //to remove
+  public resolveData: 'QC';
+
   //Data for CanadaMap Component
   canada_map_data: any;
   chart_columns: any;

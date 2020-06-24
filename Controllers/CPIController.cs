@@ -22,30 +22,28 @@ namespace covid19.Controllers
 
         //Get: api/getCPIs
         [HttpGet("[action]")]
-        public async Task<IEnumerable<CPI>> getCPIs()
+        public async Task<IEnumerable<CPI>> GetCPIs()
         {
             return await _cpiService.getCPIs();
         }
 
         [HttpGet("getCPIByGeo/{geographyName}")]
-        public async Task<IEnumerable<CPI>> getCPIByGeo(string geographyName)
+        public async Task<IEnumerable<CPI>> GetCPIByGeo(string geographyName)
         {
             return await _cpiService.getCPIByGeo(geographyName);
         }
 
         [HttpGet("getCPIByPpdg/{ppdg}")]
-        public async Task<IEnumerable<CPI>> getCPIByPpdg(string ppdg)
+        public async Task<IEnumerable<CPI>> GetCPIByPpdg(string ppdg)
         {
             return await _cpiService.getCPIByPpdg(ppdg);
         }
 
-
-        [HttpGet("getCPIByGeoByPPG/{geographyName}/{ppdg}")]
-        public async Task<IEnumerable<CPI>> getCPIByGeoByPPG(string geographyName, string ppdg)
+        [HttpGet("GetCPIByGeosByPPDG/{ppdg}/{geos}")]
+        public async Task<IEnumerable<CPI>> GetCPIByGeosByPPDG(string geos, string ppdg)
         {
-            return await _cpiService.getCPIByGeoByPPG(geographyName, ppdg);
+            return await _cpiService.getCPIByGeosByPPDG(geos, ppdg);
         }
-
 
     }
 }

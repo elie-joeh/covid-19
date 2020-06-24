@@ -7,7 +7,7 @@ namespace covid19.Data
     {
         Task<IEnumerable<CPI>> getCPIByPpdg(string ppdg);
         Task<IEnumerable<CPI>> getCPIByGeo(string geographyName);
-        Task<IEnumerable<CPI>> getCPIByGeoByPPG(string geographyName, string ppdg);
+        Task<IEnumerable<CPI>> getCPIByGeosByPPDG(string geos, string ppdg);
         Task<IEnumerable<CPI>> getCPIs();
     }
 }
