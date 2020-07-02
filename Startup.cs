@@ -37,6 +37,8 @@ namespace covid19
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICPIService, CPIService>();
             services.AddTransient<ICPIRepository, CPIRepository>();
+            services.AddTransient<IEmploymentService, EmploymentService>();
+            services.AddTransient<IEmploymentRepository, EmploymenRepository>();
 
             //Entity Framework support for SQL server
             //services.AddEntityFrameworkSqlServer();

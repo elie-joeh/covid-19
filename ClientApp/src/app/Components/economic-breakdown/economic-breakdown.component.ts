@@ -13,7 +13,7 @@ import { CpiGeneralService } from 'src/app/Services/CPI Services/cpi-general.ser
 export class EconomicBreakdownComponent implements OnInit {
   //Data info
   economic_metric: string = 'CPI';
-  economic_range: string = 'month';
+  economic_range: string = 'index';
   selected_provinces: string[] = [];
   all_data: any;
 
@@ -73,19 +73,19 @@ export class EconomicBreakdownComponent implements OnInit {
 
     for(let cpi of data){
       let geoName = cpi.geographyName;
-        let flag = 0;
-        for(let geo of geos){
-          if(geo.name == geoName){
-            flag = 1;
-            geo.series.push({"name": cpi.reference_date.substring(0, 7), "value": cpi.value});
-            break;
-          }
+      let flag = 0;
+      for(let geo of geos){
+        if(geo.name == geoName){
+          flag = 1;
+          geo.series.push({"name": cpi.reference_date.substring(0, 7), "value": cpi.value});
+          break;
         }
+      }
         
-        if (flag == 0) {
-          let geo_unit = {"name": cpi.geographyName, "series": [{"name": cpi.reference_date.substring(0, 7), "value": cpi.value}]};
-          geos.push(geo_unit);
-        } 
+      if (flag == 0) {
+        let geo_unit = {"name": cpi.geographyName, "series": [{"name": cpi.reference_date.substring(0, 7), "value": cpi.value}]};
+        geos.push(geo_unit);
+      } 
     }
 
     this.cpi_data_index = geos;
@@ -152,6 +152,10 @@ export class EconomicBreakdownComponent implements OnInit {
   employmentButton(): void{
     this.economic_metric = 'Employment';
     this.updateTitle();
+
+    
+
+
   }
 
   retailButton(): void{
@@ -182,7 +186,12 @@ export class EconomicBreakdownComponent implements OnInit {
       this.selected_provinces.push(data);
     }
 
-    this.populateCPIData(this.cpi_data_index);
+    if(this.economic_range == "month") {
+      this.populateCPIData(this.cpi_data_percentage);
+    } else {
+      this.populateCPIData(this.cpi_data_index);
+    }
+    
   }
 
   //To remove once fetching province data form database in done

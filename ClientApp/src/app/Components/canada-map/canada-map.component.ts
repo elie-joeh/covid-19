@@ -37,11 +37,13 @@ export class CanadaMapComponent implements OnInit {
   }
 
   onSelect(e) {
-    var row_nb = e.selection[0].row;
-    var column_nb = e.selection[0].column;
-    
-    this.selected_province = this.myData[row_nb][0];
-    
+    //if the selection length is 0, this means we are deselecting the previous selection, so we don't update select_province
+    if(e.selection.length != 0){
+      var row_nb = e.selection[0].row;
+      var column_nb = e.selection[0].column;
+      
+      this.selected_province = this.myData[row_nb][0];
+    }    
     this.provinceSelectionService.selected_province.next(this.selected_province);
   }
 

@@ -50,6 +50,74 @@ namespace covid19.Controllers
         }
         
         [HttpGet("[action]")]
+        public async Task<ActionResult> ImportEmployment()
+        {
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/Employment-male-2554.xlsx")
+            );
+
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    //initialize the record counters
+                    var nEmployment = 0;
+
+                    //create a list containing all the cpis already existing into the database (t will be empty on first run)
+                    var lstEmployments = _context.Employments.ToList();
+
+                    //iterates through all rows, skipping the first one
+                    for (int nRow = 2; nRow <= ws.Dimension.End.Row; nRow++)
+                    {
+                        var row = ws.Cells[nRow, 1 , nRow, ws.Dimension.End.Column];
+                        var ref_data = ws.Cells[nRow, 1].GetValue<DateTime>();
+                        var vec_id = ws.Cells[nRow, 13].GetValue<string>();
+
+                        var geo_name = getGeoCodeName(ws.Cells[nRow, 2].GetValue<string>().ToLower());
+
+                        if(geo_name != "" && lstEmployments.Where(c => c.VectorId==vec_id && c.ReferenceDate == ref_data).Count() == 0)
+                        {
+                            //create the CPI entity and fill it with the xslx data
+                            var employment = new Employment();
+                            employment.ReferenceDate = ref_data;
+                            employment.VectorId = vec_id;
+                            employment.GeoName = geo_name;
+
+                            employment.Lfc = getLfcValue(ws.Cells[nRow, 4].GetValue<string>().ToLower().Trim());
+                            employment.Sex = getSexValue(ws.Cells[nRow, 5].GetValue<string>().ToLower().Trim());
+                            employment.AgeGroup = getAgeGroup(ws.Cells[nRow, 6].GetValue<string>().ToLower().Trim());
+
+                            employment.UOM = ws.Cells[nRow, 9].GetValue<string>();
+                            employment.ScalarFactor = ws.Cells[nRow, 11].GetValue<string>();
+                            employment.Value = ws.Cells[nRow, 15].GetValue<decimal>();
+                            
+                            _context.Employments.Add(employment);
+                            await _context.SaveChangesAsync();
+
+                            lstEmployments.Add(employment);
+
+                            nEmployment++;
+                        }
+                    }
+
+                    return new JsonResult(new {
+                        Employment = nEmployment
+                    });
+
+                }
+            }
+
+        }
+        
+        [HttpGet("[action]")]
         public async Task<ActionResult> ImportCPI()
         {
             var path = Path.Combine(
@@ -177,6 +245,66 @@ namespace covid19.Controllers
             }
         }
 
+        private int getAgeGroup(string group)
+        {
+            switch(group)
+            {
+                case "15 years and over":
+                    return 0;
+                case "15 to 24 years":
+                    return 1;
+                case "25 years and over":
+                    return 2;
+                case "25 to 54 years":
+                    return 3;
+                case "55 years and over":
+                    return 4;
+                default:
+                    return -1;
+            }
+        }
+
+        private int getSexValue(string sex)
+        {
+            switch (sex)
+            {
+                case "both sexes":
+                    return 0;
+                case "males":
+                    return 1;
+                case "females":
+                    return 2;
+                default:
+                    return -1;
+            }
+        }
+
+        private int getLfcValue(string lfc)
+        {
+            switch (lfc)
+            {
+                case "population":
+                    return 0;
+                case "labour force":
+                    return 1;
+                case "employment":
+                    return 2;
+                case "full-time employment":
+                    return 3;
+                case "part-time employment":
+                    return 4;
+                case "unemployment":
+                    return 5;
+                case "unemployment rate":
+                    return 6;
+                case "participation rate":
+                    return 7;
+                case "employment rate":
+                    return 8;
+                default:
+                    return -1;
+            }
+        }
         private string getGeoCodeName(string geo_name)
         {
             switch (geo_name)

@@ -7,14 +7,13 @@
       </div>
   
       <div class="main_body">
-          <div class="column regulation">
-            <h2 style="color: white">Restrictions and Regulations</h2>
-            <p style="color: white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+          <div class="column column1">
+            <app-economic-breakdown class="economic-breakdown"></app-economic-breakdown>
           </div>
           
           <div class="column map">
             <app-canada-map class="canada_map" (uploaded)="getProvInfectionBreakdown($event)" [myData]="canada_map_data" [chartColumns]="chart_columns"></app-canada-map>
-            <app-economic-breakdown class="economic-breakdown"></app-economic-breakdown>
+            <app-employment-breakdown class="employment-breakdown"></app-employment-breakdown>
           </div>
           
           <div class="column infection">

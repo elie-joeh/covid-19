@@ -24,6 +24,7 @@ namespace covid19.Data
             //Map Entity names to DB Table names
             modelBuilder.Entity<Geography>().ToTable("Geography");
             modelBuilder.Entity<CPI>().ToTable("CPI");
+            modelBuilder.Entity<Employment>().ToTable("Employment");
         }
         #endregion Methods
 
@@ -31,6 +32,7 @@ namespace covid19.Data
         #region Properties
         public DbSet<Geography> Geographies {get; set;}
         public DbSet<CPI> CPIs {get; set;}
+        public DbSet<Employment> Employments {get; set;}
         #endregion Properties
     }
 }

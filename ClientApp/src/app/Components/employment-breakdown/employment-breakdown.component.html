@@ -1,0 +1,72 @@
+<div class="container">
+
+    <div class="info-wrapper">
+        <div class="title">{{title}}</div>
+        
+        <div class="header-buttons" *ngIf="rate_button">
+            <button class="period-bttn" (click)="rateButton()">Rate</button>
+            <button class="period-bttn" (click)="numberButton()">Number</button>
+        </div>
+
+        <div class="header-buttons" *ngIf="sex_button">
+            <button class="period-bttn" (click)="trendButton()">By Province</button>
+            <button class="period-bttn" (click)="currentButton()">All Provinces</button>
+        </div>
+
+        <div class="header-buttons" *ngIf="age_button">
+            <button class="period-bttn" (click)="allAgesButton()">All Ages</button>
+            <button class="period-bttn" (click)="youthButton()">Youth</button>
+            <button class="period-bttn" (click)="adultButton()">Adult</button>
+            <button class="period-bttn" (click)="oldButton()">Senior</button>
+        </div>
+        
+        <main [class]="theme">
+            <div class="data-line-charts" *ngIf="line_graph">
+                <ngx-charts-line-chart
+                    [scheme]="employment_colorScheme"
+                    [legend]="employment_legend"
+                    [showXAxisLabel]="employment_showXAxisLabel"
+                    [showYAxisLabel]="employment_showYAxisLabel"
+                    [showGridLines]="employment_showGridLines"
+                    [gradient]="employment_gradient"
+                    [xAxis]="employment_xAxis"
+                    [yAxis]="employment_yAxis"
+                    [xAxisLabel]="employment_xAxisLabel"
+                    [yAxisLabel]="employment_yAxisLabel"
+                    [autoScale]="employment_autoScale"
+                    [timeline]="employment_timeline"
+                    [results]="employment_user_data"
+                    >
+                </ngx-charts-line-chart>
+            </div>
+
+            <div class="data-bar-charts" *ngIf="bar_graph">
+                <ngx-charts-bar-vertical-2d
+                    [scheme]="employment_colorScheme"
+                    [legend]="employment_legend"
+                    [animations]="employment_animations"
+                    [showXAxisLabel]="employment_showXAxisLabel"
+                    [showYAxisLabel]="employment_showYAxisLabel"
+                    [showGridLines]="employment_showGridLines"
+                    [gradient]="employment_gradient"
+                    [xAxis]="employment_xAxis"
+                    [yAxis]="employment_yAxis"
+                    [xAxisLabel]="employment_xAxisLabel"
+                    [yAxisLabel]="employment_yAxisLabel"
+                    [results]="employment_user_data"
+                    >
+                </ngx-charts-bar-vertical-2d>
+            </div>
+
+        </main>
+
+    </div>
+
+    <div class="economic-buttons">
+        <button class="rate-button" (click)="rateDataButton()">Rate</button>
+        <button class="sex-button" (click)="sexDataButton()">Sex</button>
+        <button class="retail-trade" (click)="ageDataButton()">Age</button>
+    </div>
+
+</div>
+
