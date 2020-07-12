@@ -30,23 +30,141 @@ namespace covid19.Controllers
         {
             var lstCPIs = _context.CPIs.ToList();
             var lstGeos = _context.Geographies.ToList();
+            var lstGDPs = _context.GDPs.ToList();
 
             var result = 0;
 
-            foreach (var geoRecord in lstGeos)
+            for(var i=34440; i<lstGDPs.Count(); i++)
             {
-                var geoName = geoRecord.Name;
-                var geoCPIs = lstCPIs.FindAll(r => r.GeographyName == geoName);
-                geoRecord.CPIs = geoCPIs;
-                result += geoCPIs.Count();
-
-                await _context.SaveChangesAsync(); 
+                var gdp = lstGDPs[i];
+                _context.GDPs.Remove(gdp);
+                await _context.SaveChangesAsync();
+                result++;
             }
 
             return new JsonResult(new {
                     updated = result
                 });
 
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> ImportGDP()
+        {
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/GDP.xlsx")
+            );
+
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    //initialize the record counters
+                    var nGDP = 0;
+
+                    //create a list containing all the debts already existing into the database
+                    var lstGDPs = _context.GDPs.ToList();
+
+                    for(int nRow = 206642; nRow <= ws.Dimension.End.Row; nRow++)
+                    {
+                        var row = ws.Cells[nRow, 1, nRow, ws.Dimension.End.Column];
+                        var ref_date = ws.Cells[nRow, 1].GetValue<DateTime>();
+                        var vec_id = ws.Cells[nRow, 11].GetValue<string>();
+
+                        
+                            var gdp = new GDP();
+                            gdp.reference_date = ref_date;
+                            gdp.vector_id = vec_id;
+
+                            gdp.geography_name = ws.Cells[nRow, 2].GetValue<string>();
+                            gdp.industry_classification = ws.Cells[nRow, 6].GetValue<string>();
+                            gdp.prices = ws.Cells[nRow, 5].GetValue<string>();
+                            gdp.value = ws.Cells[nRow, 13].GetValue<long>();
+                            gdp.seasonal_adj = ws.Cells[nRow, 4].GetValue<string>();
+
+                            _context.GDPs.Add(gdp);
+                            await _context.SaveChangesAsync();
+                            
+                            lstGDPs.Add(gdp);
+
+                            nGDP++;
+                        
+                    }
+
+                    return new JsonResult(new {
+                        Gdp = nGDP
+                    });
+                }
+            }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> ImportDebt()
+        {
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/Debt.xlsx")
+            );
+
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    //initialize the record counters
+                    var nDebt = 0;
+
+                    //create a list containing all the debts already existing into the database
+                    var lstDebts = _context.Debts.ToList();
+
+                    //iterates through all rows, skipping the first one
+                    for (int nRow = 2; nRow <= ws.Dimension.End.Row; nRow++)
+                    {
+                        var row = ws.Cells[nRow, 1, nRow, ws.Dimension.End.Column];
+                        var ref_date = ws.Cells[nRow, 1].GetValue<DateTime>();
+                        var vec_id = ws.Cells[nRow, 9].GetValue<string>();
+
+                        var geo_name = getGeoCodeName(ws.Cells[nRow, 2].GetValue<string>().ToLower());
+
+                        if(geo_name != "" && lstDebts.Where(c => c.Vector_id==vec_id && c.Reference_date == ref_date).Count() == 0)
+                        {
+                            var debt = new Debt();
+                            debt.Reference_date = ref_date;
+                            debt.Vector_id = vec_id;
+                            debt.Geography_name = geo_name;
+
+                            debt.DGUID = ws.Cells[nRow, 3].GetValue<string>();
+                            debt.Central_gov_debt = ws.Cells[nRow, 4].GetValue<string>();
+                            debt.Value = ws.Cells[nRow, 11].GetValue<long>();
+                            
+                            _context.Debts.Add(debt);
+                            await _context.SaveChangesAsync();
+                            
+                            lstDebts.Add(debt);
+
+                            nDebt++;
+                        }
+                    }
+
+                    return new JsonResult(new {
+                        Debt = nDebt
+                    });
+                }
+            }
         }
         
         [HttpGet("[action]")]
@@ -111,10 +229,8 @@ namespace covid19.Controllers
                     return new JsonResult(new {
                         Employment = nEmployment
                     });
-
                 }
             }
-
         }
         
         [HttpGet("[action]")]

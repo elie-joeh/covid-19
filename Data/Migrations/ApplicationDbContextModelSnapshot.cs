@@ -54,6 +54,36 @@ namespace covid19.Data.Migrations
                     b.ToTable("CPI");
                 });
 
+            modelBuilder.Entity("covid19.Data.Debt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Central_gov_debt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DGUID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("Value")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Debt");
+                });
+
             modelBuilder.Entity("covid19.Data.Employment", b =>
                 {
                     b.Property<int>("Id")
@@ -91,6 +121,39 @@ namespace covid19.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employment");
+                });
+
+            modelBuilder.Entity("covid19.Data.GDP", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("industry_classification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("prices")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("seasonal_adj")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("value")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("GDP");
                 });
 
             modelBuilder.Entity("covid19.Data.Geography", b =>

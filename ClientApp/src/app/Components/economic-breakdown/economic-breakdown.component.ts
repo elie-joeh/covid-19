@@ -103,7 +103,7 @@ export class EconomicBreakdownComponent implements OnInit {
         geos.push(cpi);
       }      
     }
-
+    console.log('geos ', geos);
     this.cpi_data = geos;
   }
 

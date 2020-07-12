@@ -13,7 +13,7 @@ export class DataseedingService {
   constructor(private http: HttpClient) { }
 
   storeDataInDatabase(): Observable<any> {
-    return this.http.get<any>(this.dataseeding_url + "/ImportEmployment")
+    return this.http.get<any>(this.dataseeding_url + "/updateData")
         .pipe(
           tap(_ => console.log('stored the data in the databse'))
         );

@@ -25,6 +25,8 @@ namespace covid19.Data
             modelBuilder.Entity<Geography>().ToTable("Geography");
             modelBuilder.Entity<CPI>().ToTable("CPI");
             modelBuilder.Entity<Employment>().ToTable("Employment");
+            modelBuilder.Entity<Debt>().ToTable("Debt");
+            modelBuilder.Entity<GDP>().ToTable("GDP");
         }
         #endregion Methods
 
@@ -33,6 +35,8 @@ namespace covid19.Data
         public DbSet<Geography> Geographies {get; set;}
         public DbSet<CPI> CPIs {get; set;}
         public DbSet<Employment> Employments {get; set;}
+        public DbSet<Debt> Debts {get; set;}
+        public DbSet<GDP> GDPs {get; set;}
         #endregion Properties
     }
 }

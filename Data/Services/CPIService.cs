@@ -82,13 +82,10 @@ namespace covid19.Data
                 Expression e2 = Expression.Equal(memberExperssion1, right2);
 
                 Expression predicateBody = Expression.OrElse(e1, e2);
-                Console.WriteLine(geoNames.Count());
                 if (geoNames.Count() > 2)
                 {
-                    Console.WriteLine("we are here");
                     for(int i=2; i<geoNames.Count(); i++)
                     {
-                        Console.WriteLine("and ere");
                         MemberExpression memberExperssion = Expression.Property(parameter, "GeographyName");
                         Expression rightside = Expression.Constant(geoNames[i]);
                         Expression e = Expression.Equal(memberExperssion1, rightside);

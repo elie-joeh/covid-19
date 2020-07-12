@@ -4,8 +4,8 @@
         <div class="title">{{title}}</div>
         
         <div class="header-buttons">
-            <button class="period-bttn" (click)="monthChange()">1 month % change</button>
             <button class="period-bttn" (click)="indexChange()">Index</button>
+            <button class="period-bttn" (click)="monthChange()">1 month %</button>
         </div>
         
         <main [class]="theme">
@@ -33,8 +33,6 @@
 
     <div class="economic-buttons">
         <button class="cpi-button" (click)="cpiButton()">CPI</button>
-        <button class="employment-button" (click)="employmentButton()">Employment</button>
-        <button class="retail-trade" (click)="retailButton()">Retail</button>
     </div>
 
 </div>

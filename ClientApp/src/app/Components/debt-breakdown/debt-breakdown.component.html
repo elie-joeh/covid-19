@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="info-wrapper">
+        <div class="title">
+            {{title}}
+        </div>
+        <div class="header-buttons" *ngIf="!ratio_show">
+            <button class="header-button" (click)="valueBttn()">Value</button>
+            <button class="header-button" (click)="monthChangeBttn()">1 Month %</button>
+            <button class="header-button" (click)="yearChangeBttn()">1 Year %</button>
+        </div>
+        <main [class]="theme">
+            <div class="line-chart">
+                <ngx-charts-line-chart
+                    [scheme]="debt_colorScheme"
+                    [legend]="debt_legend"
+                    [showXAxisLabel]="debt_showXAxisLabel"
+                    [showYAxisLabel]="debt_showYAxisLabel"
+                    [showGridLines]="debt_showGridLines"
+                    [gradient]="debt_gradient"
+                    [xAxis]="debt_xAxis"
+                    [yAxis]="debt_yAxis"
+                    [xAxisLabel]="debt_xAxisLabel"
+                    [yAxisLabel]="debt_yAxisLabel"
+                    [autoScale]="debt_autoScale"
+                    [timeline]="debt_timeline"
+                    [results]="line_chart_data"
+                >
+                </ngx-charts-line-chart>
+            </div>
+        </main>
+    </div>
+
+    <div class="data-buttons">
+        <button class="rate-button" (click)="debtButton()">Debt</button>
+        <button class="sex-button" (click)="gdpButton()">GDP</button>
+        <button class="retail-trade" (click)="gdpDebtButton()">Ratio</button>
+    </div>
+</div>

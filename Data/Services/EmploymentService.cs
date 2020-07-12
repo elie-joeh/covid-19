@@ -155,7 +155,7 @@ namespace covid19.Data
             List<int> groups = new List<int>();
             while(groupNumbers != 0)
             {
-                Console.WriteLine("group: " + groupNumbers%10);
+
                 groups.Add(groupNumbers % 10);
                 groupNumbers = groupNumbers / 10;
             }

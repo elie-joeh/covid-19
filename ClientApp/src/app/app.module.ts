@@ -15,6 +15,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataseedingComponent } from './Components/dataseeding/dataseeding.component';
 import { EmploymentBreakdownComponent } from './Components/employment-breakdown/employment-breakdown.component';
+import { DebtBreakdownComponent } from './Components/debt-breakdown/debt-breakdown.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EmploymentBreakdownComponent } from './Components/employment-breakdown/
     DashboardComponent,
     EconomicBreakdownComponent,
     DataseedingComponent,
-    EmploymentBreakdownComponent
+    EmploymentBreakdownComponent,
+    DebtBreakdownComponent
   ],
   imports: [
     BrowserModule,
