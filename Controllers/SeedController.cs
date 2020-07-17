@@ -31,20 +31,148 @@ namespace covid19.Controllers
             var lstCPIs = _context.CPIs.ToList();
             var lstGeos = _context.Geographies.ToList();
             var lstGDPs = _context.GDPs.ToList();
+            var lstRetails = _context.Retails.ToList();
 
             var result = 0;
 
-            for(var i=34440; i<lstGDPs.Count(); i++)
-            {
-                var gdp = lstGDPs[i];
-                _context.GDPs.Remove(gdp);
-                await _context.SaveChangesAsync();
-                result++;
-            }
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/Retail.xlsx")
+            );
 
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    for(var i=0; i<lstRetails.Count(); i++)
+                    {
+                        var retail = lstRetails[i];
+                        retail.geography_name = getGeoCodeName(getGeoCodeName(ws.Cells[i+2, 2].GetValue<string>()).ToLower().Trim());
+                        await _context.SaveChangesAsync();
+                        result++;
+                    }
+                }
+                
+            }
             return new JsonResult(new {
                     updated = result
                 });
+
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> ImportManufacturing()
+        {
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/Manufacturing.xlsx")
+            );
+
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    //initialize the record counters
+                    var nManufacturing = 0;
+
+                    //create a list containing all the debts already existing into the database
+                    var lstManufacturing = _context.Manufacturings.ToList();
+
+                    for(int nRow = 2; nRow<ws.Dimension.End.Row; nRow++)
+                    {
+                        Manufacturing manu = new Manufacturing();
+                        
+                        manu.Reference_date = ws.Cells[nRow, 1].GetValue<DateTime>();
+                        manu.Vector_id = ws.Cells[nRow, 11].GetValue<string>();
+                        manu.Geography_name = getGeoCodeName(ws.Cells[nRow, 2].GetValue<string>().ToLower().Trim());
+                        manu.Adjustment = getAdjustments(ws.Cells[nRow, 5].GetValue<string>().ToLower().Trim());
+                        manu.Principal_statistics = getPrincipalStat(ws.Cells[nRow, 4].GetValue<string>().ToLower().Trim());
+                        manu.Industry_classification = ws.Cells[nRow, 6].GetValue<string>();
+                        manu.Value = ws.Cells[nRow, 13].GetValue<decimal>();
+                        if(manu.Principal_statistics == -1)
+                        {
+                            continue;
+                        }
+                         _context.Manufacturings.Add(manu);
+                        await _context.SaveChangesAsync();
+                            
+                        lstManufacturing.Add(manu);
+
+                        nManufacturing++;
+                    }
+
+                    return new JsonResult(new {
+                        Manufacturing = nManufacturing
+                    });
+                }
+            }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> ImportRetail()
+        {
+            var path = Path.Combine(
+                _env.ContentRootPath,
+                String.Format("Data/Source/Retail.xlsx")
+            );
+
+            using(var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read
+            ))
+            {
+                using(var ep = new ExcelPackage(stream))
+                {
+                    //get the first worksheet
+                    var ws = ep.Workbook.Worksheets[0];
+
+                    //initialize the record counters
+                    var nRetail = 0;
+
+                    //create a list containing all the debts already existing into the database
+                    var lstRetail = _context.Retails.ToList();
+
+                    for(int nRow = 100146; nRow<ws.Dimension.End.Row; nRow++)
+                    {
+                        Retail retail = new Retail();
+
+                        var row = ws.Cells[nRow, 1, nRow, ws.Dimension.End.Column];
+                        
+                        retail.reference_date = ws.Cells[nRow, 1].GetValue<DateTime>();
+                        retail.vector_id = ws.Cells[nRow, 10].GetValue<string>();
+                        retail.geography_name = getGeoCodeName(ws.Cells[nRow, 2].GetValue<string>().ToLower().Trim());
+                        retail.adjustments = getAdjustments(ws.Cells[nRow, 5].GetValue<string>().ToLower().Trim());
+                        retail.industry_class = ws.Cells[nRow, 4].GetValue<string>();
+                        retail.value = ws.Cells[nRow, 12].GetValue<long>();
+
+                         _context.Retails.Add(retail);
+                        await _context.SaveChangesAsync();
+                            
+                        lstRetail.Add(retail);
+
+                        nRetail++;
+                    }
+
+                    return new JsonResult(new {
+                        Retail = nRetail
+                    });
+                }
+            }
 
         }
 
@@ -80,22 +208,22 @@ namespace covid19.Controllers
                         var vec_id = ws.Cells[nRow, 11].GetValue<string>();
 
                         
-                            var gdp = new GDP();
-                            gdp.reference_date = ref_date;
-                            gdp.vector_id = vec_id;
+                        var gdp = new GDP();
+                        gdp.reference_date = ref_date;
+                        gdp.vector_id = vec_id;
 
-                            gdp.geography_name = ws.Cells[nRow, 2].GetValue<string>();
-                            gdp.industry_classification = ws.Cells[nRow, 6].GetValue<string>();
-                            gdp.prices = ws.Cells[nRow, 5].GetValue<string>();
-                            gdp.value = ws.Cells[nRow, 13].GetValue<long>();
-                            gdp.seasonal_adj = ws.Cells[nRow, 4].GetValue<string>();
+                        gdp.geography_name = ws.Cells[nRow, 2].GetValue<string>();
+                        gdp.industry_classification = ws.Cells[nRow, 6].GetValue<string>();
+                        gdp.prices = ws.Cells[nRow, 5].GetValue<string>();
+                        gdp.value = ws.Cells[nRow, 13].GetValue<long>();
+                        gdp.seasonal_adj = ws.Cells[nRow, 4].GetValue<string>();
 
-                            _context.GDPs.Add(gdp);
-                            await _context.SaveChangesAsync();
+                        _context.GDPs.Add(gdp);
+                        await _context.SaveChangesAsync();
                             
-                            lstGDPs.Add(gdp);
+                        lstGDPs.Add(gdp);
 
-                            nGDP++;
+                        nGDP++;
                         
                     }
 
@@ -361,6 +489,32 @@ namespace covid19.Controllers
             }
         }
 
+        private int getPrincipalStat(string industry)
+        {
+            switch(industry)
+            {
+                case "sales of goods manufactured (shipments)":
+                    return 0;
+                case "ratio of total inventory to sales":
+                    return 1;
+                default:
+                    return -1;
+            }
+        }
+
+        private int getAdjustments(string adj)
+        {
+            switch(adj)
+            {
+                case "unadjusted":
+                    return 0;
+                case "seasonally adjusted":
+                    return 1;
+                default:
+                    return -1;
+            }
+        }
+
         private int getAgeGroup(string group)
         {
             switch(group)
@@ -447,14 +601,14 @@ namespace covid19.Controllers
                     return "AB";
                 case "british columbia":
                     return "BC";
-                case "whitehorse, yukon":
+                case "yukon":
                     return "YT";
-                case "yellowknife, northwest territories":
+                case "northwest territories":
                     return "NT";
-                case "iqaluit, nunavut":
+                case "nunavut":
                     return "NU";
                 default:
-                    return "";
+                    return geo_name;
             }
         }
 

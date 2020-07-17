@@ -8,9 +8,9 @@ namespace covid19.Data
 {
     public class DebtService: IDebtService
     {
-        private readonly IDebtReposiroty _debtRepo;
+        private readonly IDebtRepository _debtRepo;
 
-        public DebtService(IDebtReposiroty debtRepo)
+        public DebtService(IDebtRepository debtRepo)
         {
             _debtRepo = debtRepo;
         }

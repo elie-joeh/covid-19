@@ -50,7 +50,7 @@ export class DebtBreakdownComponent implements OnInit {
   debt_multi: any[];
   debt_view: any[] = [700, 300];
   debt_colorScheme = {
-    domain: ['#7aa3e5', '#E44D25', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
+    domain: ['#E44D25', '#7aa3e5', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
   };
   debt_showGridLines: boolean = true;
   debt_gradient: boolean = true;

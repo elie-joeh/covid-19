@@ -27,6 +27,8 @@ namespace covid19.Data
             modelBuilder.Entity<Employment>().ToTable("Employment");
             modelBuilder.Entity<Debt>().ToTable("Debt");
             modelBuilder.Entity<GDP>().ToTable("GDP");
+            modelBuilder.Entity<Retail>().ToTable("Retail");
+            modelBuilder.Entity<Manufacturing>().ToTable("Manufacturing");
         }
         #endregion Methods
 
@@ -37,6 +39,8 @@ namespace covid19.Data
         public DbSet<Employment> Employments {get; set;}
         public DbSet<Debt> Debts {get; set;}
         public DbSet<GDP> GDPs {get; set;}
+        public DbSet<Retail> Retails {get; set;}
+        public DbSet<Manufacturing> Manufacturings {get; set;}
         #endregion Properties
     }
 }

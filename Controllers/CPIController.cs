@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using covid19.Data;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace covid19.Controllers
 {

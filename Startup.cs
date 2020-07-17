@@ -34,15 +34,18 @@ namespace covid19
             });
 
             services.AddTransient<IProvinceService, ProvinceService>();
-            services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICPIService, CPIService>();
             services.AddTransient<ICPIRepository, CPIRepository>();
             services.AddTransient<IEmploymentService, EmploymentService>();
             services.AddTransient<IEmploymentRepository, EmploymenRepository>();
-            services.AddTransient<IDebtReposiroty, DebtRepository>();
+            services.AddTransient<IDebtRepository, DebtRepository>();
             services.AddTransient<IDebtService, DebtService>();
             services.AddTransient<IGDPRepository, GDPRepository>();
             services.AddTransient<IGDPService, GDPService>();
+            services.AddTransient<IRetailRepository, RetailRepository>();
+            services.AddTransient<IRetailService, RetailService>();
+            services.AddTransient<IManufacturingRepository, ManufacturingRepository>();
+            services.AddTransient<IManufacturingService, ManufacturingService>();
             //Entity Framework support for SQL server
             //services.AddEntityFrameworkSqlServer();
             

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {InfectionBreakdownService} from '../../Services/infection-breakdown.service'
-import {CitiesBreakdownService} from '../../Services/cities-breakdown.service'
 import { Province } from 'src/app/Interfaces/Province';
 import { ProvinceSelectionService } from 'src/app/Services/province-selection.service';
 
@@ -25,7 +24,6 @@ export class CanadaMapComponent implements OnInit {
   private chart_status: string;
 
   constructor(private infectionBreakdownService : InfectionBreakdownService,
-              private citiesBreakdownService: CitiesBreakdownService,
               private provinceSelectionService: ProvinceSelectionService) {
   }
 

@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="info-wrapper">
+        <div class="title">
+            {{title}}
+        </div>
+        <div class="header-buttons" *ngIf="retail_show">
+            <button class="header-button" (click)="valueRetailChange()">Value</button>
+            <button class="header-button" (click)="oneMonthRetailChange()">1 Month %</button>
+            <button class="header-button" (click)="oneYearRetailChange()">1 Year %</button>
+        </div>
+        <div class="header-buttons" *ngIf="manufacturing_show">
+            <button class="header-button" (click)="valueManufacturingChange()">Value</button>
+            <button class="header-button" (click)="oneMonthManufacturingChange()">1 Month %</button>
+            <button class="header-button" (click)="oneYearManufacturingChange()">1 Year %</button>
+        </div>
+        <main [class]="theme">
+            <div class="line-chart">
+                <ngx-charts-line-chart
+                    [scheme]="colorScheme"
+                    [legend]="legend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [showGridLines]="showGridLines"
+                    [gradient]="gradient"
+                    [xAxis]="xAxis"
+                    [yAxis]="yAxis"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="autoScale"
+                    [timeline]="timeline"
+                    [results]="line_chart_data"
+                >
+                </ngx-charts-line-chart>
+            </div>
+        </main>
+    </div>
+
+    <div class="data-buttons">
+        <button class="rate-button" (click)="retailButton()">Retail</button>
+        <button class="sex-button" (click)="manufacturingButton()">Manufacturing</button>
+    </div>
+</div>

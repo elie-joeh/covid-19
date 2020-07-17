@@ -36,13 +36,14 @@ export class EconomicBreakdownComponent implements OnInit {
   cpi_multi: any[];
   cpi_view: any[] = [700, 300];
   cpi_colorScheme = {
-    domain: ['#7aa3e5', '#5AA454', '#E44D25', '#CFC0BB', '#a8385d', '#aae3f5']
+    domain: ['#CFC0BB', '#7aa3e5', '#5AA454', '#E44D25', '#a8385d', '#aae3f5']
   };
 
   cpi_showGridLines: boolean = true;
   cpi_gradient: boolean = true;
   cpi_data_index: any;
   cpi_data_percentage: any;
+  cpi_data_year: any;
   cpi_data: any;
   
 
@@ -103,7 +104,6 @@ export class EconomicBreakdownComponent implements OnInit {
         geos.push(cpi);
       }      
     }
-    console.log('geos ', geos);
     this.cpi_data = geos;
   }
 
@@ -114,7 +114,7 @@ export class EconomicBreakdownComponent implements OnInit {
    */
   monthChange(): void {
     this.economic_range = 'month';
-    this.cpi_yAxisLabel = '1-month % change';
+    this.cpi_yAxisLabel = '1-Month % Change';
 
     if(this.cpi_data_percentage == null) {
       this.cpi_data_percentage = [];
@@ -144,22 +144,31 @@ export class EconomicBreakdownComponent implements OnInit {
     this.populateCPIData(this.cpi_data_index);
   }
 
+  yearChange(): void {
+    this.cpi_yAxisLabel = '1-Year % Change';
+
+    if(this.cpi_data_year == null){
+      this.cpi_data_year = [];
+      for(let cpi of this.cpi_data_index) {
+        let geoName = cpi.name;
+        let index_values = cpi.series;
+        let percentages = [];
+        for(var i=index_values.length-1; i>=12; i--) {
+          var percentage_value = ((index_values[i-12].value - index_values[i].value) / index_values[i-12].value) * 100;
+          var date = index_values[i].name;
+          
+          percentages.push({"name": date, "value": percentage_value});
+        }
+
+        this.cpi_data_year.push({"name": geoName, "series": percentages.reverse()});
+      }
+    }
+
+    this.populateCPIData(this.cpi_data_year);
+  }
+
   cpiButton(): void {
     this.economic_metric = 'CPI';
-    this.updateTitle();
-  }
-
-  employmentButton(): void{
-    this.economic_metric = 'Employment';
-    this.updateTitle();
-
-    
-
-
-  }
-
-  retailButton(): void{
-    this.economic_metric = 'Retail';
     this.updateTitle();
   }
 

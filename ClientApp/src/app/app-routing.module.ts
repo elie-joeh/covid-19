@@ -7,7 +7,6 @@ import {FormsModule} from '@angular/forms'
 import { AppComponent } from './app.component';
 import { InfectionBreakdownResolverService } from './Services/infection-breakdown-resolver.service';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
-import { CitiesBreakdownResolverService } from './Services/cities-breakdown-resolver.service';
 import { DataseedingComponent } from './Components/dataseeding/dataseeding.component';
 import { CpiResolverService } from './Services/CPI Services/cpi-resolver.service';
 
@@ -18,7 +17,6 @@ const routes: Routes = [
     component: DashboardComponent,
     resolve: {
       provinceInfectionData: InfectionBreakdownResolverService,
-      citiesInfectionData: CitiesBreakdownResolverService,
       CPIData: CpiResolverService
     },
     data: {resolveData: 'resolveData'}

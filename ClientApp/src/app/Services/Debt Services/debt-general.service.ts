@@ -18,7 +18,7 @@ export class DebtGeneralService {
         .pipe(
           tap(_ => console.log('fetched emploment info for lfc sex and group')),
           catchError(this.handleFetchError<Debt[]>('getDebtByVector', []))
-        );;
+        );
   }
 
   /**
