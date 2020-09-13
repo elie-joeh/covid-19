@@ -15,6 +15,10 @@ import { DataseedingComponent } from './Components/dataseeding/dataseeding.compo
 import { EmploymentBreakdownComponent } from './Components/employment-breakdown/employment-breakdown.component';
 import { DebtBreakdownComponent } from './Components/debt-breakdown/debt-breakdown.component';
 import { SalesBreakdownComponent } from './Components/sales-breakdown/sales-breakdown.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { TooltipDirectiveDirective } from './Directives/tooltip-directive.directive';
+import { TooltipComponent } from './Components/tooltip/tooltip.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import { SalesBreakdownComponent } from './Components/sales-breakdown/sales-brea
     DataseedingComponent,
     EmploymentBreakdownComponent,
     DebtBreakdownComponent,
-    SalesBreakdownComponent
+    SalesBreakdownComponent,
+    TooltipDirectiveDirective,
+    TooltipComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +41,9 @@ import { SalesBreakdownComponent } from './Components/sales-breakdown/sales-brea
     GoogleChartsModule,
     HttpClientModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    OverlayModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -25,6 +25,9 @@ export class SalesBreakdownComponent implements OnInit {
   nl_vid = "v52367394";
   ca_vid = "v52367097";
 
+  //data metadata
+  metdata = "Insert metadata here"
+
   //vector ids for manufacturing sales
   manu_sales_vid = "v800450";
   manu_inventory_sales_vid = "v803265";

@@ -17,6 +17,10 @@ export class EconomicBreakdownComponent implements OnInit {
   selected_provinces: string[] = [];
   all_data: any;
 
+  //Data metadata
+  metdata = "Inset data information here"
+
+
   //global variables
   theme = 'dark';
   title = 'Covid-19 Impact On ' + this.economic_metric;

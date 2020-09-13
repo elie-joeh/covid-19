@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DebtGeneralService } from 'src/app/Services/Debt Services/debt-general.service';
 import { GdpGeneralService } from 'src/app/Services/GDP Services/gdp-general.service';
 
@@ -55,6 +55,9 @@ export class DebtBreakdownComponent implements OnInit {
   debt_showGridLines: boolean = true;
   debt_gradient: boolean = true;
 
+  //tootip information (information about data)
+  debt_info = "\u2022 Dollar chained 2012 in millions of dollar \n\u2022 Values in thousands of dollars" 
+ 
   constructor(private debtService: DebtGeneralService,
               private gdpService: GdpGeneralService) { }
 

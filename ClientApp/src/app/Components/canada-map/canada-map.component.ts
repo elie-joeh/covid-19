@@ -23,8 +23,7 @@ export class CanadaMapComponent implements OnInit {
 
   private chart_status: string;
 
-  constructor(private infectionBreakdownService : InfectionBreakdownService,
-              private provinceSelectionService: ProvinceSelectionService) {
+  constructor(private provinceSelectionService: ProvinceSelectionService) {
   }
 
   /*
@@ -47,21 +46,12 @@ export class CanadaMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.chart_status = 'infection';
+    this.title = "Interactive Map";
     this.drawChart();
   }
 
-  //TODO: show the CPI rate change since covid
-  cpiButton() {
-
-  }
-
-  //TODO: show the employment rate change since covid
-  employmentButton() {
-
-  }
 
   infectionButton() {
-    this.title = "Infection By Province";
     if(this.chart_status != 'infection'){
       this.chart_status = 'infection';
       this.uploaded.emit('infection');
@@ -69,7 +59,6 @@ export class CanadaMapComponent implements OnInit {
   }
 
   deadButton() {
-    this.title = "Death By Province";
     if(this.chart_status != 'dead') {
       this.chart_status  = 'dead';
       this.uploaded.emit('dead');
@@ -78,7 +67,6 @@ export class CanadaMapComponent implements OnInit {
 
   drawChart() {
     this.type = "GeoChart"
-    this.title = "Infection By Province";
     
     this.myOptions = {
       region : 'CA',

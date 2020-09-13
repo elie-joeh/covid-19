@@ -52,7 +52,8 @@ namespace covid19
             //Application Db Context
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("DefaultConnection")
+                        Configuration.GetConnectionString("DefaultConnection"),
+                        providerOptions => providerOptions.EnableRetryOnFailure()
                     )
             );
         }

@@ -1,6 +1,7 @@
 <div class="container">
     <div class="info-wrapper">
-        <div class="title">
+        <!--<div class="title" matTooltip="Info about CPI"  matTooltipPosition="after" matTooltipClass="custom-tooltip">-->
+        <div class="title" appTooltipDirective="{{debt_info}}">
             {{title}}
         </div>
         <div class="header-buttons" *ngIf="!ratio_show">
