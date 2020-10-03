@@ -11,9 +11,6 @@ export class DebtBreakdownComponent implements OnInit {
 
   //data
   private base_date = new Date("2019-10-01");
-  private net_debt_vector_id = "v86822803";
-  private gross_debt_vector_id = "v86822804";
-  private gdp_vector_id = "v65201210";
   private debt_all_data: any;
   private debt_data: any;
   private gross_debt_data: any;
@@ -62,15 +59,9 @@ export class DebtBreakdownComponent implements OnInit {
               private gdpService: GdpGeneralService) { }
 
   ngOnInit(): void {
-    this.debtService.getDebtByVector(this.net_debt_vector_id).subscribe(
+    this.debtService.getAllNetDebt().subscribe(
       data => {
         this.handleDebtData(data);
-      }
-    )
-
-    this.debtService.getDebtByVector(this.gross_debt_vector_id).subscribe(
-      data => {
-        this.gross_debt_data = data;
       }
     )
 
@@ -83,7 +74,7 @@ export class DebtBreakdownComponent implements OnInit {
 
     for(let debt of data) {
       let date = new Date(debt.reference_date);
-      if(date > this.base_date){
+      if(date > this.base_date && debt.value != null){
         let unit = {"name": debt.reference_date.substring(0, 7), "value": debt.value};
         debt_by_geo[0].series.push(unit);
       }
@@ -177,7 +168,7 @@ export class DebtBreakdownComponent implements OnInit {
 
     this.debt_yAxisLabel = "Real GDP";
     if(this.gdp_all_data == null || this.gdp_data == null){
-      this.gdpService.getGDPByVector(this.gdp_vector_id).subscribe(
+      this.gdpService.getGDPAllIndustry().subscribe(
         data => {
           this.handleGDPData(data);
         }
@@ -196,7 +187,7 @@ export class DebtBreakdownComponent implements OnInit {
 
     this.debt_yAxisLabel = "Debt to GDP Ratio";
     if(this.gdp_all_data == null || this.gdp_data == null) {
-      this.gdpService.getGDPByVector(this.gdp_vector_id).subscribe(
+      this.gdpService.getGDPAllIndustry().subscribe(
         data => {
           this.handleGDPData(data);
           this.handleRatioData();

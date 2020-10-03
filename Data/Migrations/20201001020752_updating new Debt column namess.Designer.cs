@@ -10,8 +10,8 @@ using covid19.Data;
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200731045409_Identity")]
-    partial class Identity
+    [Migration("20201001020752_updating new Debt column namess")]
+    partial class updatingnewDebtcolumnnamess
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,33 @@ namespace covid19.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Debt");
+                });
+
+            modelBuilder.Entity("covid19.Data.DebtNew", b =>
+                {
+                    b.Property<long>("Vector_id")
+                        .HasColumnName("Vector_id")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Reference_date")
+                        .HasColumnName("Reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Decimals")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReleaseTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ScalarFactorCode")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Value")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("Vector_id", "Reference_date");
+
+                    b.ToTable("Canada_Debt");
                 });
 
             modelBuilder.Entity("covid19.Data.Employment", b =>

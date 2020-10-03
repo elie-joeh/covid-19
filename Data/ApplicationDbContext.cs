@@ -25,10 +25,12 @@ namespace covid19.Data
             modelBuilder.Entity<Geography>().ToTable("Geography");
             modelBuilder.Entity<CPI>().ToTable("CPI");
             modelBuilder.Entity<Employment>().ToTable("Employment");
-            modelBuilder.Entity<Debt>().ToTable("Debt");
             modelBuilder.Entity<GDP>().ToTable("GDP");
+            modelBuilder.Entity<GDP>().HasKey(x => new {x.Vector_id, x.Reference_date});
             modelBuilder.Entity<Retail>().ToTable("Retail");
             modelBuilder.Entity<Manufacturing>().ToTable("Manufacturing");
+            modelBuilder.Entity<Debt>().ToTable("Canada_Debt");
+            modelBuilder.Entity<Debt>().HasKey(x => new {x.Vector_id, x.Reference_date});
         }
         #endregion Methods
 
@@ -37,10 +39,10 @@ namespace covid19.Data
         public DbSet<Geography> Geographies {get; set;}
         public DbSet<CPI> CPIs {get; set;}
         public DbSet<Employment> Employments {get; set;}
-        public DbSet<Debt> Debts {get; set;}
         public DbSet<GDP> GDPs {get; set;}
         public DbSet<Retail> Retails {get; set;}
         public DbSet<Manufacturing> Manufacturings {get; set;}
+        public DbSet<Debt> Debts {get; set;}
         #endregion Properties
     }
 }

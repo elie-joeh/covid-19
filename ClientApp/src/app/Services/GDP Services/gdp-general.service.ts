@@ -21,6 +21,14 @@ export class GdpGeneralService {
         );
   }
 
+  getGDPAllIndustry() {
+    return this.http.get<GDP[]>(this.gdp_general_url + "")
+      .pipe(
+        tap(_ => console.log('feched gdp all industry')),
+        catchError(this.handleFetchError<GDP[]>('getGDPAllIndustry error fetching'))
+      )
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

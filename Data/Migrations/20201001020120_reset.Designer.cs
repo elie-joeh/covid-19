@@ -10,8 +10,8 @@ using covid19.Data;
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200705162411_Add Debt")]
-    partial class AddDebt
+    [Migration("20201001020120_reset")]
+    partial class reset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,33 @@ namespace covid19.Data.Migrations
                     b.ToTable("Debt");
                 });
 
+            modelBuilder.Entity("covid19.Data.DebtNew", b =>
+                {
+                    b.Property<long>("vectorId")
+                        .HasColumnName("Vector_id")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("referenceDate")
+                        .HasColumnName("Reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Decimals")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReleaseTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ScalarFactorCode")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Value")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("vectorId", "referenceDate");
+
+                    b.ToTable("Canada_Debt");
+                });
+
             modelBuilder.Entity("covid19.Data.Employment", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +152,39 @@ namespace covid19.Data.Migrations
                     b.ToTable("Employment");
                 });
 
+            modelBuilder.Entity("covid19.Data.GDP", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("industry_classification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("prices")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("seasonal_adj")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("value")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("GDP");
+                });
+
             modelBuilder.Entity("covid19.Data.Geography", b =>
                 {
                     b.Property<string>("Name")
@@ -139,6 +199,66 @@ namespace covid19.Data.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Geography");
+                });
+
+            modelBuilder.Entity("covid19.Data.Manufacturing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Industry_classification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Principal_statistics")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturing");
+                });
+
+            modelBuilder.Entity("covid19.Data.Retail", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("adjustments")
+                        .HasColumnType("int");
+
+                    b.Property<string>("geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("industry_class")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("value")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Retail");
                 });
 
             modelBuilder.Entity("covid19.Data.CPI", b =>

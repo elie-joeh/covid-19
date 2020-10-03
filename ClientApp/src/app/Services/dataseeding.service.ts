@@ -8,12 +8,12 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class DataseedingService {
 
-  private dataseeding_url = 'api/Seed';
+  private dataseeding_url = 'api/Update';
 
   constructor(private http: HttpClient) { }
 
   storeDataInDatabase(): Observable<any> {
-    return this.http.get<any>(this.dataseeding_url + "/")
+    return this.http.get<any>(this.dataseeding_url + "/GetGDPTillDate/1000")
         .pipe(
           tap(_ => console.log('stored the data in the databse'))
         );

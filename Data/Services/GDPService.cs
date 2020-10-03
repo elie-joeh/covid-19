@@ -20,6 +20,20 @@ namespace covid19.Data
             return await _gdpRepo.GetAllAsyn();
         }
 
+        public async Task<IEnumerable<GDP>> GetGDPAllIndustry()
+        {
+            var gbdAllIndustryVectorId = Data.DataConstants.VectorId.GDP_ALL_INDUSTRIES;
+            ParameterExpression parameter = Expression.Parameter(typeof(GDP));
+            MemberExpression memberExpression = Expression.Property(parameter, "Vector_id");
+
+            Expression right = Expression.Constant(gbdAllIndustryVectorId);
+            Expression predicateBody = Expression.Equal(right, memberExpression);
+
+            Expression<Func<GDP, bool>> predicate = Expression.Lambda<Func<GDP, bool>>(predicateBody, parameter);
+
+            return await _gdpRepo.FindByAsyn(predicate);
+        }
+
         public async Task<IEnumerable<GDP>> GetGDPsByVector(string vector_id)
         {
             ParameterExpression parameter = Expression.Parameter(typeof(GDP));

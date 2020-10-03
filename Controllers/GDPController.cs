@@ -21,6 +21,11 @@ namespace covid19.Controllers
         {
             return await _service.GetGDPs();
         }
+        
+        public async Task<IEnumerable<GDP>> GetGDPAllIndustry()
+        {
+            return await _service.GetGDPAllIndustry();
+        }
 
         [HttpGet("GetGDPsByVector/{vector_id}")]
         public async Task<IEnumerable<GDP>> GetGDPsByVector(string vector_id)

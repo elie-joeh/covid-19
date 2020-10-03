@@ -20,40 +20,18 @@ namespace covid19.Data
             return await _debtRepo.GetAllAsyn();
         }
 
-        public async Task<IEnumerable<Debt>> GetDebtsByVector(string vector_id)
+        public async Task<IEnumerable<Debt>> GetNetDebt()
         {
+            var debtNetVectorId = DataConstants.VectorId.NET_DEBT;
             ParameterExpression parameter = Expression.Parameter(typeof(Debt));
-
             MemberExpression memberExpression = Expression.Property(parameter, "Vector_id");
-            Expression right = Expression.Constant(vector_id);
+
+            Expression right = Expression.Constant(debtNetVectorId);
             Expression predicateBody = Expression.Equal(right, memberExpression);
 
             Expression<Func<Debt, bool>> predicate = Expression.Lambda<Func<Debt, bool>>(predicateBody, parameter);
 
             return await _debtRepo.FindByAsyn(predicate); 
-        }
-
-        public async Task<IEnumerable<Debt>> GetDebtsByVectors(string vector_ids)
-        {
-            string[] vector_ids_str = vector_ids.Split(',');
-
-            ParameterExpression parameter = Expression.Parameter(typeof(Debt));
-            MemberExpression memberExpression = Expression.Property(parameter, "Vector_id");
-            Expression right = Expression.Constant(vector_ids_str[0]);
-            Expression predicateBody = Expression.Equal(right, memberExpression);            
-
-            for(var i=1; i<vector_ids_str.Count(); i++)
-            {
-                memberExpression = Expression.Property(parameter, "Vector_id");
-                right = Expression.Constant(vector_ids_str[i]);
-                Expression expression = Expression.Equal(memberExpression, right);
-
-                predicateBody = Expression.OrElse(expression, predicateBody);
-            }
-
-            Expression<Func<Debt, bool>> predicate = Expression.Lambda<Func<Debt, bool>>(predicateBody, parameter);
-
-            return await _debtRepo.FindByAsyn(predicate);
         }
     }
 }

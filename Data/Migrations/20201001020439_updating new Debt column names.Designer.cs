@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using covid19.Data;
 
 namespace covid19.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201001020439_updating new Debt column names")]
+    partial class updatingnewDebtcolumnnames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,39 @@ namespace covid19.Data.Migrations
 
             modelBuilder.Entity("covid19.Data.Debt", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Central_gov_debt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DGUID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Geography_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("Value")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Debt");
+                });
+
+            modelBuilder.Entity("covid19.Data.DebtNew", b =>
+                {
+                    b.Property<long>("Vector_id")
                         .HasColumnName("Vector_id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Reference_date")
                         .HasColumnName("Reference_date")
@@ -122,27 +154,33 @@ namespace covid19.Data.Migrations
 
             modelBuilder.Entity("covid19.Data.GDP", b =>
                 {
-                    b.Property<string>("Vector_id")
-                        .HasColumnName("Vector_id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Reference_date")
-                        .HasColumnName("Reference_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Decimals")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReleaseTime")
+                    b.Property<string>("geography_name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ScalarFactorCode")
-                        .HasColumnType("int");
+                    b.Property<string>("industry_classification")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Value")
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<string>("prices")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Vector_id", "Reference_date");
+                    b.Property<DateTime>("reference_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("seasonal_adj")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("value")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("vector_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
 
                     b.ToTable("GDP");
                 });

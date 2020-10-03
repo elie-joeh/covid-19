@@ -2,7 +2,7 @@
 
 namespace covid19.Data.Migrations
 {
-    public partial class modifyingdatabase1 : Migration
+    public partial class reset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

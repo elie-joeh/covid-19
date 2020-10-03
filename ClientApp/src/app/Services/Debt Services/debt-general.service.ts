@@ -13,12 +13,12 @@ export class DebtGeneralService {
 
   constructor(private http: HttpClient) { }
 
-  getDebtByVector(vector_id: string){
-    return this.http.get<Debt[]>(this.debt_general_url + "/GetDebtsByVector/" + vector_id)
-        .pipe(
-          tap(_ => console.log('fetched emploment info for lfc sex and group')),
-          catchError(this.handleFetchError<Debt[]>('getDebtByVector', []))
-        );
+  getAllNetDebt() {
+    return this.http.get<Debt[]>(this.debt_general_url + "/GetNetDebts")
+      .pipe(
+        tap(_ => console.log('fetched all net debt')),
+        catchError(this.handleFetchError<Debt[]>('getAllNetDeb', []))
+      )
   }
 
   /**
