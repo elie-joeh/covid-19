@@ -10,7 +10,7 @@ import { GdpGeneralService } from 'src/app/Services/GDP Services/gdp-general.ser
 export class DebtBreakdownComponent implements OnInit {
 
   //data
-  private base_date = new Date("2019-10-01");
+  private readonly base_date = new Date("2019-10-01");
   private debt_all_data: any;
   private debt_data: any;
   private gross_debt_data: any;
@@ -25,7 +25,6 @@ export class DebtBreakdownComponent implements OnInit {
   gdp_show = false;
   ratio_show = false;
   
-
   line_chart_data: any;
 
   //global variables
@@ -53,7 +52,8 @@ export class DebtBreakdownComponent implements OnInit {
   debt_gradient: boolean = true;
 
   //tootip information (information about data)
-  debt_info = "\u2022 Dollar chained 2012 in millions of dollar \n\u2022 Values in thousands of dollars" 
+  readonly debt_meta_info = "\u2022 Dollar chained 2012 \n\u2022 Values in thousands of dollars";
+  readonly gdp_meta_info = "\u2022 Dollar chained 2012 \n\u2022 Seasonally adjusted at annual rates \n\u2022 Values in millions of dollars";
  
   constructor(private debtService: DebtGeneralService,
               private gdpService: GdpGeneralService) { }
@@ -103,49 +103,53 @@ export class DebtBreakdownComponent implements OnInit {
 
   private handleRatioData() {
     var ratio_values = [];
-    ratio_values.push({"name": "Net", "series": []});
-    ratio_values.push({"name": "Gross", "series": []});
-    var net_debt_length = this.debt_all_data.length;
-    var gross_debt_length = this.gross_debt_data.length;
-
-    ratio_values[0].series = this.calculateRatio(net_debt_length, true).reverse();
-    ratio_values[1].series = this.calculateRatio(gross_debt_length, false).reverse();
+    ratio_values.push({"name": "CA", "series": []});
+    
+    ratio_values[0].series = this.calculateRatio().reverse();
  
     this.line_chart_data = ratio_values;
   }
 
-  private calculateRatio(length: number, net_debt: boolean){
+  private calculateRatio(){
     var ratio_values = [];
 
-    for(var i=length-1; i>length-6; i--){
-      var debt_date;
-      var debt;
+    var debt_index = this.debt_all_data.length - 1;
+    var gdp_index = this.gdp_all_data.length - 1;
 
-      if(net_debt){
-        debt_date = this.debt_all_data[i].reference_date;
-        debt = this.debt_all_data[i];
+    var debt_latest_date = this.debt_all_data[debt_index].reference_date;
+    var gdp_latest_date = this.gdp_all_data[gdp_index].reference_date;
+
+    if(debt_latest_date != gdp_latest_date) {
+      if(debt_latest_date < gdp_latest_date) {
+        while(debt_latest_date != gdp_latest_date) {
+          gdp_latest_date = this.gdp_all_data[--gdp_index].reference_date;
+        }
       } else {
-        debt_date = this.gross_debt_data[i].reference_date;
-        debt = this.gross_debt_data[i];
-      }
-      
-      var found = false;
-      var gdp: any;
-      var debt_length = this.gdp_all_data.length;
-      for(var j=debt_length-1; j>0; j--){
-        var gdp_date = this.gdp_all_data[j].reference_date;
-        if(debt_date == gdp_date){
-          found = true;
-          gdp = this.gdp_all_data[j];
+        while(debt_latest_date != gdp_latest_date) {
+          debt_latest_date = this.debt_all_data[--debt_index].reference_date;
         }
       }
+    }
+    
+    var stop_date = new Date(debt_latest_date);
 
-      if(found){
-        var percentage = ((debt.value / gdp.value) * 100).toFixed(2);
+    while(stop_date > this.base_date) {
+      var gdp = this.gdp_all_data[gdp_index].value;
+      var debt = this.debt_all_data[debt_index].value;
 
-        let unit = {"name": debt_date.substring(0, 7), "value": percentage};
-        ratio_values.push(unit);
-      } 
+      if(gdp == null || debt == null) {
+        --gdp_index;
+        --debt_index;
+        stop_date = new Date(this.debt_all_data[debt_index].reference_date);
+        continue;
+      }
+
+      var percentage = ((debt / gdp) * 100).toFixed(2);
+      let unit = {"name": this.debt_all_data[debt_index].reference_date.substring(0, 7), "value": percentage};
+      ratio_values.push(unit);
+      --gdp_index;
+      --debt_index;
+      stop_date = new Date(this.debt_all_data[debt_index].reference_date);
     }
 
     return ratio_values;
@@ -183,9 +187,9 @@ export class DebtBreakdownComponent implements OnInit {
     this.debt_show = false;
     this.gdp_show = false;
     this.ratio_show = true;
-    this.title = "Covid-19 Impact on Debt-GDP Ratio";
+    this.title = "Covid-19 Impact on Net-Debt/GDP Ratio";
 
-    this.debt_yAxisLabel = "Debt to GDP Ratio";
+    this.debt_yAxisLabel = "Net-Debt to GDP Ratio";
     if(this.gdp_all_data == null || this.gdp_data == null) {
       this.gdpService.getGDPAllIndustry().subscribe(
         data => {
@@ -212,17 +216,25 @@ export class DebtBreakdownComponent implements OnInit {
     if(this.debt_show) {
       this.debt_yAxisLabel = "Net Debt 1-month Change";
       
-      var length = this.debt_all_data.length;
+      var index = this.debt_all_data.length - 1;
+      var stop_date = new Date(this.debt_all_data[index].reference_date);
       var debt = [];
       debt.push({"name": "CA", "series": []});
 
-      for(let i=length-1; i>length-6; i--){
-        var debt1 = this.debt_all_data[i].value;
-        var debt2 = this.debt_all_data[i-1].value;
+      while(stop_date > this.base_date){
+        var debt1 = this.debt_all_data[index].value;
+        var debt2 = this.debt_all_data[index - 1].value;
+        if(debt1 == null || debt2 == null) {
+          --index;
+          stop_date = new Date(this.debt_all_data[index].reference_date);
+          continue;
+        }
         var percentage = (((debt1 - debt2) / debt2) * 100).toFixed(2);
-          
-        let unit = {"name": this.debt_all_data[i].reference_date.substring(0, 7), "value": percentage};
+
+        let unit = {"name": this.debt_all_data[index].reference_date.substring(0, 7), "value": percentage};
         debt[0].series.push(unit);
+        --index;
+        stop_date = new Date(this.debt_all_data[index].reference_date);
       }
       debt[0].series = debt[0].series.reverse();
       this.debt_1month_data,this.line_chart_data = debt;
@@ -250,17 +262,25 @@ export class DebtBreakdownComponent implements OnInit {
     if(this.debt_show){
       this.debt_yAxisLabel = "Net Debt 12-month Change";
       
-      var length = this.debt_all_data.length;
+      var index = this.debt_all_data.length - 1;
+      var stop_date = new Date(this.debt_all_data[index].reference_date);
       var debt = [];
       debt.push({"name": "CA", "series": []});
 
-      for(let i=length-1; i>length-6; i--){
-        var debt1 = this.debt_all_data[i].value;
-        var debt2 = this.debt_all_data[i-12].value;
+      while(stop_date > this.base_date){
+        var debt1 = this.debt_all_data[index].value;
+        var debt2 = this.debt_all_data[index - 12].value;
+        if(debt1 == null || debt2 == null) {
+          --index;
+          stop_date = new Date(this.debt_all_data[index].reference_date);
+          continue;
+        }
         var percentage = (((debt1 - debt2) / debt2) * 100).toFixed(2);
-          
-        let unit = {"name": this.debt_all_data[i].reference_date.substring(0, 7), "value": percentage};
+
+        let unit = {"name": this.debt_all_data[index].reference_date.substring(0, 7), "value": percentage};
         debt[0].series.push(unit);
+        --index;
+        stop_date = new Date(this.debt_all_data[index].reference_date);
       }
       debt[0].series = debt[0].series.reverse();
       this.debt_12month_data, this.line_chart_data = debt;

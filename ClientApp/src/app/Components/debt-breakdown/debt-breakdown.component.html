@@ -1,7 +1,12 @@
 <div class="container">
     <div class="info-wrapper">
-        <!--<div class="title" matTooltip="Info about CPI"  matTooltipPosition="after" matTooltipClass="custom-tooltip">-->
-        <div class="title" appTooltipDirective="{{debt_info}}">
+        <div class="title" *ngIf="debt_show" appTooltipDirective="{{debt_meta_info}}">
+            {{title}}
+        </div>
+        <div class="title" *ngIf="gdp_show" appTooltipDirective="{{gdp_meta_info}}">
+            {{title}}
+        </div>
+        <div class="title" *ngIf="ratio_show">
             {{title}}
         </div>
         <div class="header-buttons" *ngIf="!ratio_show">

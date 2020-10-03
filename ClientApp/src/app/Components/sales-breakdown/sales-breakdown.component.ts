@@ -26,8 +26,9 @@ export class SalesBreakdownComponent implements OnInit {
   ca_vid = "v52367097";
 
   //data metadata
-  metdata = "Insert metadata here"
-
+  readonly retail_metadata = "\u2022 Seasonally adjusted \n\u2022 Values in thousands of dollars";
+  readonly manufacturing_metadata = "\u2022 Seasonally adjusted \n\u2022 Values in thousands of dollars";;
+  
   //vector ids for manufacturing sales
   manu_sales_vid = "v800450";
   manu_inventory_sales_vid = "v803265";

@@ -1,6 +1,9 @@
 <div class="container">
     <div class="info-wrapper">
-        <div class="title" appTooltipDirective="{{metdata}}">
+        <div class="title" *ngIf="retail_show" appTooltipDirective="{{retail_metadata}}">
+            {{title}}
+        </div>
+        <div class="title" *ngIf="manufacturing_show" appTooltipDirective="{{manufacturing_metadata}}">
             {{title}}
         </div>
         <div class="header-buttons" *ngIf="retail_show">

@@ -18,8 +18,8 @@ export class EconomicBreakdownComponent implements OnInit {
   all_data: any;
 
   //Data metadata
-  metdata = "Inset data information here"
-
+  //cpi_metdata = "\u2022 Dollar chained 2012 \n\u2022 Values in thousands of dollars";
+  
 
   //global variables
   theme = 'dark';

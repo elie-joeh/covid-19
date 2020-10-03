@@ -13,6 +13,7 @@ export class EmploymentBreakdownComponent implements OnInit {
   title = 'Covid-19 Impact On Employment';
 
   //Data info
+  readonly employment_meta_info = "\u2022 Seasonally adjusted \n\u2022 Values in thousands";
   rate_button: boolean = true;
   sex_button: boolean = false;
   age_button: boolean = false;
